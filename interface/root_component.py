@@ -18,7 +18,7 @@ class Root(tk.Tk):
         super().__init__()
 
         self.spot = spot
-        self.margin=margin
+        self.margin = margin
 
         self.title("Ishaan's Trading Bot")
 

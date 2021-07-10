@@ -34,7 +34,7 @@ class BinanceMarginClient:
 
         self._headers = {'X-MBX-APIKEY': self._public_key}
 
-        self.spotBalances = self._get_snapshot()  # gets a snapshot of user balances
+        self.marginBalances = self._get_snapshot()  # gets a snapshot of user balances
         self.contracts = self.get_contracts()  # gets exchange information about symbols and their trading
         self.prices = dict()
 
@@ -98,10 +98,10 @@ class BinanceMarginClient:
         print(response)
         print(int(time.time()) * 1000)
 
-    def _get_snapshot(self) -> typing.Dict[str, SpotBalance]:
+    def _get_snapshot(self) -> typing.Dict[str, MarginBalance]:
         # gets a snapshot of user balances
         data = dict()
-        data['type'] = "SPOT"
+        data['type'] = "MARGIN"
         data['timestamp'] = int(time.time() * 1000)
         data['signature'] = self._generate_signature(data)
 
@@ -112,7 +112,7 @@ class BinanceMarginClient:
         try:
             if response['code'] == 200:
                 for i in response['snapshotVos'][0]['data']['balances']:
-                    balances[i['asset']] = SpotBalance(i)
+                    balances[i['asset']] = MarginBalance(i)
         except Exception as e:
             logger.info("Problem while getting snapshot of balances- %s", e)
 
@@ -166,7 +166,7 @@ class BinanceMarginClient:
         candles = []
         if response is not None:
             for c in response:
-                candles.append(Candle(c,interval,"spot"))
+                candles.append(Candle(c,interval,"Margin"))
 
         df = []
         for i in candles:
@@ -174,10 +174,10 @@ class BinanceMarginClient:
             x = [dt, i.open, i.high, i.low, i.close, i.volume]
             df.append(x)
 
-        # saving this
-        path = 'E:\\trading bot\z. saved candles\\'
-        pd.DataFrame(df, columns=['time', 'open', 'high', 'low', 'close', 'volume']).to_csv(
-            path + contract.symbol + ".csv", index=False)
+            # saving this
+            path = 'E:\Ishaan\'s Bot\saved candles\\'
+            pd.DataFrame(df, columns=['time', 'open', 'high', 'low', 'close', 'volume']).to_csv(
+                path + contract.symbol + ".csv", index=False)
 
         return candles
 
@@ -199,17 +199,17 @@ class BinanceMarginClient:
             time.sleep(2)
 
     def _on_open(self, ws):
-        logger.info("Binance Spot Websocket connection opened")
+        logger.info("Binance Margin Websocket connection opened")
 
         lst = [self.contracts['BTCUSDT']]
         self.subscribe_channel(lst, "bookTicker")
         self.subscribe_channel(lst, "aggTrade")  # somesome message about this aggTrade at vid 41, 7:28
 
     def _on_close(self, ws):
-        logger.warning("Binance Spot Websocket connection closed")
+        logger.warning("Binance Margin Websocket connection closed")
 
     def _on_error(self, ws, msg: str):
-        logger.error("Binance Spot Websocket connection error: %s", msg)
+        logger.error("Binance Margin Websocket connection error: %s", msg)
 
     def _on_message(self, ws, msg: str):
         data = dict()
@@ -265,7 +265,7 @@ class BinanceMarginClient:
             self._ws.send(json.dumps(data))
             logger.info("Successfully subscribed")
         except Exception as e:
-            logger.error("Binance Spot Websocket error while subscribing to %s %s updates: %s", len(contracts), channel,
+            logger.error("Binance Margin Websocket error while subscribing to %s %s updates: %s", len(contracts), channel,
                          e)
 
 
@@ -281,6 +281,73 @@ class BinanceMarginClient:
 
         trade_size = (balance * balance_pct / 100) / price  #USDT amount to invest
         trade_size = round((round(trade_size / contract.tick_size) * contract.tick_size), 8)
-        logger.info("Binance Spot current USDT balance = %s, trade size = %s",balance,trade_size)
+        logger.info("Binance Margin current USDT balance = %s, trade size = %s",balance,trade_size)
 
         return trade_size
+
+########### ORDERS ###########
+
+    def place_order(self, contract: Contract, order_type: str, quantity: float, side: str, price=None, tif=None) -> OrderStatus:
+
+        data = dict()
+        ask = self.get_bid_ask(self.contracts['ETHUSDT'])['bid']
+        print("Total cost: " + str(ask * quantity))
+
+        data['symbol'] = contract.symbol
+        data['side'] = side.upper()  # BUY / SELL
+        data['quantity'] = round(quantity, contract.base_asset_decimals)
+        data['type'] = order_type.upper()
+
+        if price is not None:
+            data['price'] = round(round(price / contract.tick_size) * contract.tick_size, 8)
+            # can we use round(price, contract.tick_size) ??
+
+        if tif is not None:
+            data['timeInForce'] = tif
+        data['timestamp'] = int(time.time() * 1000)
+        data['signature'] = self._generate_signature(data)
+
+        order_status = self._make_request("POST", "/api/v3/order", data)
+
+        if order_status is not None:
+            order_status = OrderStatus(order_status)
+
+        return order_status
+
+    # make a list of active orders to manage!
+    # make a data model of Order!
+    # another function needed for OCO orders
+
+
+    def cancel_order(self, contract: Contract, order_id: int) -> OrderStatus:
+        data = dict()
+        data['orderId'] = order_id
+        data['symbol'] = contract.symbol
+        data['timestamp'] = int(time.time() * 1000)
+        data['signature'] = self._generate_signature(data)
+
+        order_status = self._make_request("DELETE", "/api/v3/order", data)
+
+        if order_status is not None:
+            order_status = OrderStatus(order_status)
+
+        return order_status
+
+
+    def get_order_status(self, contract: Contract, order_id: int) -> OrderStatus:
+        data = dict()
+        data['timestamp'] = int(time.time() * 1000)
+        data['symbol'] = contract.symbol
+        data['orderId'] = order_id
+        data['signature'] = self._generate_signature(data)
+
+        order_status = self._make_request("GET", "/api/v3/order", data)
+
+        print("")
+        print(order_status)
+        print("")
+
+        if order_status is not None:
+            order_status = OrderStatus(order_status)
+
+        return order_status

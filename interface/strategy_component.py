@@ -4,7 +4,7 @@ import typing
 from interface.styling import *
 from connectors.binance_spot import BinanceSpotClient
 from connectors.binance_margin import BinanceMarginClient
-# from strategies import TechnicalStrategy, BreakoutStrategy
+from strategies import TechnicalStrategy, BreakoutStrategy
 
 
 class StrategyEditor(tk.Frame):
@@ -104,8 +104,7 @@ class StrategyEditor(tk.Frame):
             elif base_param['widget'] == tk.Button:
                 self.body_widgets[code_name][b_index] = tk.Button(self._table_frame, text=base_param['text'],
                                                                   bg=base_param['bg'], fg=FG_COLOR,
-                                                                  command=lambda frozen_command=base_param[
-                                                                      'command']: frozen_command(b_index))
+                                                                  command=lambda frozen_command=base_param['command']: frozen_command(b_index))
 
             else:
                 continue
@@ -225,7 +224,6 @@ class StrategyEditor(tk.Frame):
                 new_strategy = TechnicalStrategy(self._exchanges[exchange], contract, exchange, timeframe,
                                                  balance_percentage, take_profit, stop_loss,
                                                  self._additional_parameters[b_index])
-
 
             elif strat_selected == "Breakout":
                 new_strategy = BreakoutStrategy(self._exchanges[exchange], contract, exchange, timeframe,

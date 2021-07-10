@@ -32,7 +32,7 @@ class Balance:
 class Candle:
     def __init__(self, candle_data, timeframe, exchange):
 
-        if exchange == "spot":       #check for spellings
+        if exchange == "Spot" or exchange == "Margin":       #check for spellings
             self.timestamp = candle_data[0]
             self.open = float(candle_data[1])
             self.high = float(candle_data[2])
@@ -62,14 +62,20 @@ class Candle:
 class OrderStatus:
     def __init__(self, order_info):
         self.order_id = order_info['orderId']
-        self.status = order_info['status']
-        self.price = float(order_info['price'])
+        self.status = order_info['status'].lower()
+        self.avg_price = float(order_info['price'])
 
 
-class OrderObject:
-    def __init__(self, order_info):
-        self.symbol = order_info['symbol']
-        self.order_id = order_info['orderId']
-        self.status = order_info['status']
-        self.type = order_info['type']  # MARKET, LIMIT etc.
-        self.price = float(order_info['price'])
+class Trade:
+    def __init__(self, trade_info):
+        self.time: int = trade_info['time']
+        self.contract: Contract = trade_info['contract']
+        self.strategy: str = trade_info['strategy']
+        self.side: str = trade_info['side']
+        self.entry_price: float = trade_info['entry_price']
+        self.status: str = trade_info['status']
+        self.pnl: float = trade_info['pnl']
+        self.quantity = trade_info['quantity']
+        self.entry_id = trade_info['entry_id']
+
+

@@ -175,7 +175,8 @@ class BinanceSpotClient:
             df.append(x)
 
         # saving this
-        path = 'E:\\trading bot\z. saved candles\\'
+        path = 'E:\Ishaan\'s Bot\saved candles\\'
+
         pd.DataFrame(df, columns=['time', 'open', 'high', 'low', 'close', 'volume']).to_csv(
             path + contract.symbol + ".csv", index=False)
 
@@ -284,3 +285,68 @@ class BinanceSpotClient:
         logger.info("Binance  current USDT balance = %s, trade size = %s", balance, trade_size)
 
         return trade_size
+
+
+    ########### ORDERS ###########
+
+    def place_order(self, contract: Contract, order_type: str, quantity: float, side: str, price=None, tif=None) -> OrderStatus:
+        data = dict()
+        ask = self.get_bid_ask(self.contracts['ETHUSDT'])['bid']
+        print("Total cost: " + str(ask * quantity))
+
+        data['symbol'] = contract.symbol
+        data['side'] = side.upper()  # BUY / SELL
+        data['quantity'] = round(quantity, contract.base_asset_decimals)
+        data['type'] = order_type.upper()
+
+        if price is not None:
+            data['price'] = round(round(price / contract.tick_size) * contract.tick_size, 8)
+            # can we use round(price, contract.tick_size) ??
+
+        if tif is not None:
+            data['timeInForce'] = tif
+        data['timestamp'] = int(time.time() * 1000)
+        data['signature'] = self._generate_signature(data)
+
+        order_status = self._make_request("POST", "/api/v3/order", data)
+
+        if order_status is not None:
+            order_status = OrderStatus(order_status)
+
+        return order_status
+
+    # make a list of active orders to manage!
+    # make a data model of Order!
+    # another function needed for OCO orders
+
+    def cancel_order(self, contract: Contract, order_id: int) -> OrderStatus:
+        data = dict()
+        data['orderId'] = order_id
+        data['symbol'] = contract.symbol
+        data['timestamp'] = int(time.time() * 1000)
+        data['signature'] = self._generate_signature(data)
+
+        order_status = self._make_request("DELETE", "/api/v3/order", data)
+
+        if order_status is not None:
+            order_status = OrderStatus(order_status)
+
+        return order_status
+
+    def get_order_status(self, contract: Contract, order_id: int) -> OrderStatus:
+        data = dict()
+        data['timestamp'] = int(time.time() * 1000)
+        data['symbol'] = contract.symbol
+        data['orderId'] = order_id
+        data['signature'] = self._generate_signature(data)
+
+        order_status = self._make_request("GET", "/api/v3/order", data)
+
+        print("")
+        print(order_status)
+        print("")
+
+        if order_status is not None:
+            order_status = OrderStatus(order_status)
+
+        return order_status
