@@ -11,11 +11,12 @@ class MarginBalance:
         self.locked = data['locked']
 
 class Contract:
-    def __init__(self, contract_data):
+    def __init__(self, contract_data, exchange):
         self.symbol = contract_data['symbol']
         self.base_asset = contract_data['baseAsset']
         self.quote_asset = contract_data['quoteAsset']
         self.base_asset_decimals = contract_data['baseAssetPrecision']
+        self.exchange = exchange
         # self.quote_asset_decimals = contract_data['quotePrecision']
         self.tick_size = 1.0 / pow(10, self.base_asset_decimals)
         # self.lot_size = 1.0 / pow(10, self.quantity_decimals)

@@ -344,3 +344,46 @@
 2021-07-10 22:40:36,340 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=ADAUSDT HTTP/1.1" 200 117
 2021-07-10 22:40:37,861 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
 2021-07-10 22:40:38,099 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=ADAUSDT HTTP/1.1" 200 116
+2021-07-10 23:56:48,962 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-10 23:56:49,308 DEBUG :: https://api.binance.com:443 "GET /sapi/v1/accountSnapshot?type=MARGIN&timestamp=1625941608955&signature=d05c7495ca7b68032fcf464d6faf669270305fca9238a2e5dd428a88ea0a897b HTTP/1.1" 200 None
+2021-07-10 23:56:49,311 INFO :: Problem while getting snapshot of balances- 'balances'
+2021-07-10 23:56:49,312 INFO :: Running get_contracts
+2021-07-10 23:56:49,314 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-10 23:56:49,527 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 872
+2021-07-10 23:57:54,758 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-10 23:57:55,072 DEBUG :: https://api.binance.com:443 "GET /sapi/v1/accountSnapshot?type=MARGIN&timestamp=1625941674754&signature=587116877fd2f5ff849d07a8868b96ab6a8a3b061ecc09170370a36773d373c9 HTTP/1.1" 200 None
+2021-07-10 23:57:55,075 INFO :: Problem while getting snapshot of balances- 'balances'
+2021-07-10 23:57:55,075 INFO :: Running get_contracts
+2021-07-10 23:57:55,078 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-10 23:57:55,311 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 872
+2021-07-10 23:57:55,316 INFO :: Binance Margin Client was successfully initialized
+2021-07-10 23:57:55,318 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-10 23:57:55,596 DEBUG :: https://api.binance.com:443 "GET /sapi/v1/accountSnapshot?type=Spot&timestamp=1625941675316&signature=9c7f2f0ed93d71a368086872b010c58c80687afde239548569a4d5efdeef505e HTTP/1.1" 200 109
+2021-07-10 23:57:55,599 INFO :: Running get_contracts
+2021-07-10 23:57:55,602 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-10 23:57:55,840 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 872
+2021-07-10 23:57:56,010 INFO :: Binance Margin Websocket connection opened
+2021-07-10 23:57:56,011 INFO :: Successfully subscribed
+2021-07-10 23:57:56,011 INFO :: Successfully subscribed
+2021-07-10 23:58:16,873 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-10 23:58:17,194 DEBUG :: https://api.binance.com:443 "GET /sapi/v1/accountSnapshot?type=MARGIN&timestamp=1625941696869&signature=129262a0f124a9f770c5018511e6c131dd3d342c34785759bc344b2f52c1a39f HTTP/1.1" 200 None
+2021-07-10 23:58:17,197 INFO :: Problem while getting snapshot of balances- 'balances'
+2021-07-10 23:58:17,197 INFO :: Running get_contracts
+2021-07-10 23:58:17,200 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-10 23:58:17,425 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 872
+2021-07-10 23:58:17,429 INFO :: Binance Margin Client was successfully initialized
+2021-07-10 23:58:17,432 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-10 23:58:17,687 DEBUG :: https://api.binance.com:443 "GET /sapi/v1/accountSnapshot?type=Spot&timestamp=1625941697430&signature=0b8735601e1cda14d680927c7c9d8376c11363a5ff25d21cb96975fc28db9ce0 HTTP/1.1" 200 109
+2021-07-10 23:58:17,690 INFO :: Running get_contracts
+2021-07-10 23:58:17,693 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-10 23:58:17,916 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 871
+2021-07-10 23:58:17,920 INFO :: Binance Spot Client was successfully initialized
+2021-07-10 23:58:18,096 INFO :: Binance Margin Websocket connection opened
+2021-07-10 23:58:18,097 INFO :: Successfully subscribed
+2021-07-10 23:58:18,097 INFO :: Successfully subscribed
+2021-07-10 23:58:18,564 INFO :: Binance  Websocket connection opened
+2021-07-10 23:58:18,564 INFO :: Successfully subscribed
+2021-07-10 23:58:18,565 INFO :: Successfully subscribed
+2021-07-10 23:58:31,178 INFO :: Running get_historical_candles
+2021-07-10 23:58:31,181 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-10 23:58:31,444 DEBUG :: https://api.binance.com:443 "GET /api/v3/klines?symbol=BTCUSDT&interval=1m&limit=1000 HTTP/1.1" 200 53898

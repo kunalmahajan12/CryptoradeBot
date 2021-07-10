@@ -14,7 +14,7 @@ import requests
 from pprint import pprint
 import typing
 from models import *
-# from strategies import TechnicalStrategy, BreakoutStrategy
+from strategies import TechnicalStrategy, BreakoutStrategy
 
 logger = logging.getLogger()
 
@@ -130,7 +130,7 @@ class BinanceSpotClient:
         if exchange_info is not None:
             for contract_data in exchange_info['symbols']:
                 if "SPOT" in contract_data['permissions']:
-                    contracts[contract_data['symbol']] = Contract(contract_data)
+                    contracts[contract_data['symbol']] = Contract(contract_data, "Spot")
 
         return contracts
 
@@ -239,6 +239,22 @@ class BinanceSpotClient:
                 else:  # if already there, update
                     self.prices[symbol]["bid"] = float(data['b'])
                     self.prices[symbol]["ask"] = float(data['a'])
+
+                # PNL Calculation
+                try:
+                    for b_index, strat in self.strategies.items():
+                        if strat.contract.symbol == symbol:
+                            for trade in strat.trades:
+                                if trade.status == "open" and trade.entry_price is not None:
+                                    if trade.side == "long":
+                                        trade.pnl = (self.prices[symbol][
+                                                         'bid'] - trade.entry_price) * trade.quantity
+                                    if trade.side == "short":
+                                        trade.pnl = (trade.entry_price - self.prices[symbol][
+                                            'ask']) * trade.quantity
+                except RuntimeError as e:
+                    logger.error(("Error whie looping through margin strategies: %s", e))
+
 
             elif data["e"] == "aggTrade":
                 symbol = data['s']

@@ -123,7 +123,6 @@ class StrategyEditor(tk.Frame):
 
     def _delete_row(self, b_index: int):
         for element in self._base_params:
-            print(element)
             self.body_widgets[element['code_name']][b_index].grid_forget()
 
             # also delete from dictionary

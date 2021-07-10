@@ -57,6 +57,32 @@ class Root(tk.Tk):
                 self.logging_frame.add_log(log['log'])
                 log['displayed'] = True
 
+        # Trade Component and Trade Logs
+
+        for client in [self.spot, self.margin]:
+            try:
+                for b_index, strategy in client.strategies.items():
+                    for log in strategy.logs:
+                        if not log['displayed']:
+                            self.logging_frame.add_log(log['log'])
+                            log['displayed'] = True
+
+                    for trade in strategy.trades:
+                        if trade.time not in self._trades_frame.body_widgets['time']: #time or Symbol?
+                            self._trades_frame.add_trade(trade)
+
+                        precision = trade.contract.base_asset_decimals
+
+                        pnl_str = "{0:.{prec}f}".format(trade.pnl, prec=precision)
+                        self._trades_frame.body_widgets['pnl_var'][trade.time].set(pnl_str)
+                        self._trades_frame.body_widgets['status_var'][trade.time].set(trade.status.capitalize())
+
+            except RuntimeError as e:
+                logger.error("Error while looping thorough the strategies dictionary: %s", e)
+
+
+
+
 
         # Watchlist prices
 
