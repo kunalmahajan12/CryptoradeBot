@@ -23,7 +23,7 @@ class BinanceSpotClient:
     def __init__(self, public_key: str, secret_key: str, testnet: bool):  # constructor
 
         if testnet:
-            self._base_url = "https://testnet.binance.vision"
+            self._base_url = "https://testnet.binance.vision/api"
             self._wss_url = "wss://stream.binancefuture.com/ws"
         else:
             self._base_url = "https://api.binance.com"
@@ -34,7 +34,7 @@ class BinanceSpotClient:
 
         self._headers = {'X-MBX-APIKEY': self._public_key}
 
-        self.Balances = self._get_snapshot()  # gets a snapshot of user balances
+        self.Balances: typing.Dict[str, SpotBalance] = self._get_snapshot()  # gets a snapshot of user balances
         self.contracts = self.get_contracts()  # gets exchange information about symbols and their trading
         self.prices = dict()
 
@@ -101,13 +101,12 @@ class BinanceSpotClient:
     def _get_snapshot(self) -> typing.Dict[str, SpotBalance]:
         # gets a snapshot of user balances
         data = dict()
-        data['type'] = "Spot"
+        data['type'] = "SPOT"
         data['timestamp'] = int(time.time() * 1000)
         data['signature'] = self._generate_signature(data)
 
         response = self._make_request("GET", "/sapi/v1/accountSnapshot", data)
         # problem if response['code']!=200
-
         balances = dict()
         try:
             if response['code'] == 200:
@@ -215,7 +214,6 @@ class BinanceSpotClient:
     def _on_message(self, ws, msg: str):
         data = dict()
         data = json.loads(msg)
-
         """
         {
           "u":400900217,     // order book updateId
@@ -263,9 +261,6 @@ class BinanceSpotClient:
                     if strat.contract.symbol == symbol:
                         res = strat.parse_trades(float(data['p']), float(data['q']), data['T'])
                         strat.check_trade(res)
-        # if symbol == 'BTCUSDT':
-        #     self._add_log(
-        #         symbol + " " + str(self.prices[symbol]['bid']) + "/" + str(self.prices[symbol]['ask']))
 
     def subscribe_channel(self, contracts: typing.List[Contract], channel: str):
         # we can subscribe to the "!bookTicker" channel to subscribe to allll the symbols in bookTicker

@@ -24,8 +24,9 @@ logger.addHandler(file_handler)
 
 if __name__ == '__main__':
     publicKey, secretKey = keygen.getKeys()
-    margin = BinanceMarginClient(public_key=publicKey, secret_key=secretKey, testnet=False)
+
     spot = BinanceSpotClient(public_key=publicKey, secret_key=secretKey, testnet=False)
+    margin = BinanceMarginClient(public_key=publicKey, secret_key=secretKey, testnet=False)
 
     time.sleep(1.5)  # necessary to not get error while subscribing due to external thread
     root = Root(spot=spot, margin=margin)

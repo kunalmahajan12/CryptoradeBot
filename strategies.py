@@ -287,33 +287,18 @@ class BreakoutStrategy(Strategy):
                  stop_loss: float, other_params: typing.Dict):
         super().__init__(client, contract, exchange, timeframe, balance_pct, take_profit, stop_loss, "Breakout")
 
-        self._ema_fast = other_params['min_volume']
+        self._min_volume = other_params['min_volume']
 
     def _check_signal(self) -> int:
-        # if self.candles[-1].close > self.candles[-2].high and self.candles[-1].volume > self._min_volume:
-        #     return 1
-        #
-        # elif self.candles[-1].close < self.candles[-2].low and self.candles[-1].volume > self._min_volume:
-        #     return -1
-        #
-        # else
-        #     return 0
-
-        # inside bar pattern
-
-        if self.candles[-2].high < self.candles[-3].high and self.candles[-2].low > self.candles[-3].low:
-            if self.candles[-1].close > self.candles[-3].high:
-                # upside breakout
-                return 1
-            elif self.candles[-1].close < self.candles[-3].low:
-                # downside pattern
-                return -1
-            else:
-                return 0
+        if self.candles[-1].close > self.candles[-2].high and self.candles[-1].volume > self._min_volume:
+            return 1
+        elif self.candles[-1].close < self.candles[-2].low and self.candles[-1].volume > self._min_volume:
+            return -1
+        else:
+            return 0
 
     def check_trade(self, tick_type: str):
         if not self.ongoing_position:
             signal_result = self._check_signal()
-
-            if signal_result in [-1, 1]:
+            if signal_result in [1, -1]:
                 self._open_position(signal_result)

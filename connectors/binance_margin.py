@@ -23,7 +23,7 @@ class BinanceMarginClient:
     def __init__(self, public_key: str, secret_key: str, testnet: bool):  # constructor
 
         if testnet:
-            self._base_url = "https://testnet.binance.vision"
+            self._base_url = "https://testnet.binance.vision/api"
             self._wss_url = "wss://stream.binancefuture.com/ws"
         else:
             self._base_url = "https://api.binance.com"
@@ -34,7 +34,7 @@ class BinanceMarginClient:
 
         self._headers = {'X-MBX-APIKEY': self._public_key}
 
-        self.marginBalances = self._get_snapshot()  # gets a snapshot of user balances
+        self.marginBalances: typing.Dict[str, MarginBalance] = self._get_snapshot()  # gets a snapshot of user balances
         self.contracts = self.get_contracts()  # gets exchange information about symbols and their trading
         self.prices = dict()
 
@@ -111,10 +111,10 @@ class BinanceMarginClient:
         balances = dict()
         try:
             if response['code'] == 200:
-                for i in response['snapshotVos'][0]['data']['balances']:
+                for i in response['snapshotVos'][0]['data']['userAssets']:
                     balances[i['asset']] = MarginBalance(i)
         except Exception as e:
-            logger.info("Problem while getting snapshot of balances- %s", e)
+            logger.info("Problem while getting snapshot of margin balances- %s", e)
 
         return balances
 
