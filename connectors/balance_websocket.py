@@ -123,7 +123,6 @@ class BalanceWebsocket:
         # there are two types of payloads, balanceUpdate and outboundAccountPosition
         if 'e' in data:
             if data['e'] == 'outboundAccountPosition':
-                pprint(data)
                 for i in data['B']:
                     asset = i['a']
                     free = float(i['f'])
@@ -174,8 +173,8 @@ class BalanceWebsocket:
                     free = float(i['f'])
                     locked = float(i['l'])
                     if asset in self.margin.Balances:
-                        self.spot.Balances[asset].free = free
-                        self.spot.Balances[asset].locked = locked
+                        self.margin.Balances[asset].free = free
+                        self.margin.Balances[asset].locked = locked
                     else:
                         self.margin.Balances[asset] = MarginBalance({"asset": asset, "free": free, "locked": locked})
 

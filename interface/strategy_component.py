@@ -93,8 +93,6 @@ class StrategyEditor(tk.Frame):
         self._body_index = 1
 
     def _add_strategy_row(self):
-        pprint(f"Spot: {self._exchanges['Spot'].Balances['USDT'].free}")
-        pprint(f"Margin: {self._exchanges['Margin'].Balances['USDT'].free}")
         b_index = self._body_index
 
         for col, base_param in enumerate(self._base_params):
