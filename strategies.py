@@ -69,6 +69,11 @@ class Strategy:
             elif price < last_candle.low:
                 last_candle.low = price
 
+            # Check take profit/ stop loss
+            for trade in self.trades:
+                if trade.status == "open" and trade.entry_price is not None:
+                    self._check_tp_sl(trade)
+
             return "same_candle"
 
         # MISSING CANDLES
@@ -175,6 +180,38 @@ class Strategy:
                                "status": "open", "pnl": 0, "quantity": trade_size, "entry_id": order_status.order_id})
             self.trades.append(new_trade)
         #make sure spot doesn't short
+
+    def _check_tp_sl(self, trade: Trade):
+        tp_triggered = False
+        sl_triggered = False
+
+        price = self.candles[-1].close
+        if trade.side == "long":
+            if self.stop_loss is not None:
+                if price <= trade.entry_price * (1 - self.stop_loss / 100):
+                    sl_triggered = True
+            if self.take_profit is not None:
+                if price >= trade.entry_price * (1 + self.take_profit / 100):
+                    tp_triggered = True
+
+        if trade.side == "short":
+            if self.stop_loss is not None:
+                if price >= trade.entry_price * (1 + self.stop_loss / 100):
+                    sl_triggered = True
+            if self.take_profit is not None:
+                if price <= trade.entry_price * (1 - self.take_profit / 100):
+                    tp_triggered = True
+
+        if tp_triggered or sl_triggered:
+            self._add_log((f"{'Stop loss' if sl_triggered else 'Take profit'} for {self.contract.symbol} {self.tf}"))
+
+            order_side = "SELL" if trade.side == "long" else "BUY"
+            order_status = self.client.place_order(self.contract, "MARKET", trade.quantity, order_side)
+
+            if order_status is not None:
+                self._add_log(f"Exit order on {self.contract.symbol} {self.tf} placed successfully")
+                trade.status = "closed"
+                self.ongoing_position = False
 
 class TechnicalStrategy(Strategy):
     def __init__(self, client, contract: Contract, exchange: str, timeframe: str, balance_pct: float, take_profit: float,
