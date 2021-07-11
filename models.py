@@ -21,13 +21,13 @@ class Contract:
         self.tick_size = 1.0 / pow(10, self.base_asset_decimals)
         # self.lot_size = 1.0 / pow(10, self.quantity_decimals)
 
-class Balance:
-    def __init__(self, data):
-        self.initial_margin = float(data['initialMargin'])
-        self.maintenance_margin = float(data['maintMargin'])
-        self.margin_balance = float(data['marginBalance'])
-        self.wallet_balance = float(data['walletBalance'])
-        self.unrealized_pnl = float(data['unrealizedProfit'])
+# class Balance:
+#     def __init__(self, data):
+#         self.initial_margin = float(data['initialMargin'])
+#         self.maintenance_margin = float(data['maintMargin'])
+#         self.margin_balance = float(data['marginBalance'])
+#         self.wallet_balance = float(data['walletBalance'])
+#         self.unrealized_pnl = float(data['unrealizedProfit'])
 
 
 class Candle:

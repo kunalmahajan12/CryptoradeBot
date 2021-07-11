@@ -34,7 +34,8 @@ class BinanceSpotClient:
 
         self._headers = {'X-MBX-APIKEY': self._public_key}
 
-        self.Balances: typing.Dict[str, SpotBalance] = self._get_snapshot()  # gets a snapshot of user balances
+        self.Balances: typing.Dict[str, SpotBalance] = dict()
+
         self.contracts: typing.Dict[str, Contract] = self.get_contracts()  # gets exchange information about symbols and their trading
         self.prices = dict()
 
@@ -98,24 +99,25 @@ class BinanceSpotClient:
         print(response)
         print(int(time.time()) * 1000)
 
-    def _get_snapshot(self) -> typing.Dict[str, SpotBalance]:
-        # gets a snapshot of user balances
+    def make_snapshot(self):
+        # makes a snapshot of user balances by making transfers to help balance_websocket work
+
+        # spot to margin
         data = dict()
-        data['type'] = "SPOT"
+        data['asset'] = "USDT"
+        data['amount'] = 0.5
+        data['type'] = 1
         data['timestamp'] = int(time.time() * 1000)
         data['signature'] = self._generate_signature(data)
+        self._make_request("POST", "/sapi/v1/margin/transfer", data=data)
 
-        response = self._make_request("GET", "/sapi/v1/accountSnapshot", data)
-        # problem if response['code']!=200
-        balances = dict()
-        try:
-            if response['code'] == 200:
-                for i in response['snapshotVos'][0]['data']['balances']:
-                    balances[i['asset']] = SpotBalance(i)
-        except Exception as e:
-            logger.info("Problem while getting snapshot of balances- %s", e)
-
-        return balances
+        # back to spot
+        data2 = dict()
+        data2['asset'] = "USDT"
+        data2['amount'] = 0.5
+        data2['type'] = 2
+        data2['timestamp'] = int(time.time() * 1000)
+        data2['signature'] = self._generate_signature(data)
 
     def get_contracts(self) -> typing.Dict[str, Contract]:
         # gets exchange information about symbols and their trading
@@ -177,7 +179,7 @@ class BinanceSpotClient:
         path = 'E:\Ishaan\'s Bot\saved candles\\'
 
         pd.DataFrame(df, columns=['time', 'open', 'high', 'low', 'close', 'volume']).to_csv(
-            path + contract.symbol + ".csv", index=False)
+            path + contract.symbol + "_" + interval+ ".csv", index=False)
 
         return candles
 
@@ -281,7 +283,7 @@ class BinanceSpotClient:
 
 
     def get_trade_size(self, contract: Contract, price: float, balance_pct: float):
-        balance = self._get_snapshot()
+        balance = self.Balances
         if balance is not None:
             if 'USDT' in balance:
                 balance = balance['USDT'].free

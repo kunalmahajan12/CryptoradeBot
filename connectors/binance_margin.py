@@ -34,7 +34,9 @@ class BinanceMarginClient:
 
         self._headers = {'X-MBX-APIKEY': self._public_key}
 
-        self.marginBalances: typing.Dict[str, MarginBalance] = self._get_snapshot()  # gets a snapshot of user balances
+        self.Balances: typing.Dict[str, MarginBalance] = dict()
+        self._make_snapshot()  # gets a snapshot of user balances
+
         self.contracts: typing.Dict[str, Contract] = self.get_contracts()  # gets exchange information about symbols and their trading
         self.prices = dict()
 
@@ -98,25 +100,27 @@ class BinanceMarginClient:
         print(response)
         print(int(time.time()) * 1000)
 
-    def _get_snapshot(self) -> typing.Dict[str, MarginBalance]:
-        # gets a snapshot of user balances
+    def _make_snapshot(self):
+        # makes a snapshot of user balances by making transfers to help balance_websocket work
+
+        # spot to margin
         data = dict()
-        data['type'] = "MARGIN"
+        data['asset'] = "USDT"
+        data['amount'] = 0.5
+        data['type'] = 1
         data['timestamp'] = int(time.time() * 1000)
         data['signature'] = self._generate_signature(data)
+        x = self._make_request("POST", "/sapi/v1/margin/transfer", data=data)
 
-        response = self._make_request("GET", "/sapi/v1/accountSnapshot", data)
-        # problem if response['code']!=200
+        # back to spot
+        data2 = dict()
+        data2['asset'] = "USDT"
+        data2['amount'] = 0.5
+        data2['type'] = 2
+        data2['timestamp'] = int(time.time() * 1000)
+        data2['signature'] = self._generate_signature(data)
+        self._make_request("POST", "/sapi/v1/margin/transfer", data=data)
 
-        balances = dict()
-        try:
-            if response['code'] == 200:
-                for i in response['snapshotVos'][0]['data']['userAssets']:
-                    balances[i['asset']] = MarginBalance(i)
-        except Exception as e:
-            logger.info("Problem while getting snapshot of margin balances- %s", e)
-
-        return balances
 
     def get_contracts(self) -> typing.Dict[str, Contract]:
         # gets exchange information about symbols and their trading
@@ -283,7 +287,7 @@ class BinanceMarginClient:
 
 
     def get_trade_size(self, contract: Contract, price: float, balance_pct: float):
-        balance = self._get_snapshot()
+        balance = self.Balances
         if balance is not None:
             if 'USDT' in balance:
                 balance = balance['USDT'].free

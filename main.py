@@ -8,6 +8,7 @@ from pprint import pprint
 # from connectors.bitmex_api import get_contracts
 from connectors.binance_margin import BinanceMarginClient
 from connectors.binance_spot import BinanceSpotClient
+from connectors.balance_websocket import BalanceWebsocket
 from interface.root_component import Root
 
 logger = logging.getLogger()
@@ -27,8 +28,10 @@ if __name__ == '__main__':
 
     spot = BinanceSpotClient(public_key=publicKey, secret_key=secretKey, testnet=False)
     margin = BinanceMarginClient(public_key=publicKey, secret_key=secretKey, testnet=False)
-
+    balance_websocket = BalanceWebsocket(public_key=publicKey, secret_key=secretKey, spot=spot, margin=margin, testnet=False)
     time.sleep(1.5)  # necessary to not get error while subscribing due to external thread
+    spot.make_snapshot()
+
     root = Root(spot=spot, margin=margin)
 
     root.mainloop()
