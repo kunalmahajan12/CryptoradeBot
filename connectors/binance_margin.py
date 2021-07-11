@@ -35,7 +35,7 @@ class BinanceMarginClient:
         self._headers = {'X-MBX-APIKEY': self._public_key}
 
         self.marginBalances: typing.Dict[str, MarginBalance] = self._get_snapshot()  # gets a snapshot of user balances
-        self.contracts = self.get_contracts()  # gets exchange information about symbols and their trading
+        self.contracts: typing.Dict[str, Contract] = self.get_contracts()  # gets exchange information about symbols and their trading
         self.prices = dict()
 
         self.strategies: typing.Dict[int, typing.Union[TechnicalStrategy, BreakoutStrategy]] = dict()
@@ -136,7 +136,7 @@ class BinanceMarginClient:
 
     def get_bid_ask(self, contract: Contract) -> typing.Dict[str, float]:
         # bid and ask price of given contract
-        # logger.info("Running get_bid_ask")
+
         bid_and_ask = self._make_request("GET", "/api/v3/ticker/bookTicker", {'symbol': contract.symbol})
 
         if bid_and_ask is not None:
@@ -201,7 +201,7 @@ class BinanceMarginClient:
     def _on_open(self, ws):
         logger.info("Binance Margin Websocket connection opened")
 
-        lst = [self.contracts['BTCUSDT']]
+        lst = list(self.contracts.values())
         self.subscribe_channel(lst, "bookTicker")
         self.subscribe_channel(lst, "aggTrade")  # somesome message about this aggTrade at vid 41, 7:28
 
@@ -250,7 +250,7 @@ class BinanceMarginClient:
                                     if trade.side == "short":
                                         trade.pnl = (trade.entry_price - self.prices[symbol]['ask']) * trade.quantity
                 except RuntimeError as e:
-                    logger.error(("Error whie looping through margin strategies: %s",e))
+                    logger.error(("Error whie looping through margin strategies: %s", e))
 
             elif data["e"] == "aggTrade":
                 symbol = data['s']

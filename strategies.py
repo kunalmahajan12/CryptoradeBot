@@ -68,6 +68,7 @@ class Strategy:
                 last_candle.high = price
             elif price < last_candle.low:
                 last_candle.low = price
+            self.candles[-1] = last_candle
 
             # Check take profit/ stop loss
             for trade in self.trades:
@@ -301,4 +302,72 @@ class BreakoutStrategy(Strategy):
         if not self.ongoing_position:
             signal_result = self._check_signal()
             if signal_result in [1, -1]:
+                self._open_position(signal_result)
+
+
+class MacdEmaStrategy(Strategy):
+    def __init__(self, client, contract: Contract, exchange: str, timeframe: str, balance_pct: float, take_profit: float,
+                 stop_loss: float, other_params: typing.Dict):
+        super().__init__(client, contract, exchange, timeframe, balance_pct, take_profit, stop_loss, "Technical")
+
+        self._macd_ema_fast = other_params['macd_ema_fast']
+        self._macd_ema_slow = other_params['macd_ema_slow']
+        self._macd_ema_signal = other_params['macd_ema_signal']
+
+        self._ema_period = other_params['ema_period']
+        # at this point i went to strategy component to add an 'rsi_length' in extra_params
+        # (go to self._extra_params)
+
+    def _ema(self) -> float:
+        close_list = []
+        for candle in self.candles:
+            close_list.append(candle.close)
+
+        closes = pd.Series(close_list)
+        ema_value = closes.ewm(span = self._ema_period).mean()
+        return ema_value.iloc[-2]
+
+    def _macd_last_two(self) -> typing.Tuple[float, float, float, float]:
+        # provide list of close prices
+        close_list = []
+        for candle in self.candles:
+            close_list.append(candle.close)
+
+        closes = pd.Series(close_list)
+        ema_fast = closes.ewm(span=self._macd_ema_fast).mean()
+        ema_slow = closes.ewm(span=self._macd_ema_slow).mean()
+        macd_line = ema_fast - ema_slow
+
+        macd_signal = macd_line.ewm(span=self._macd_ema_signal).mean()
+
+        return macd_line.iloc[-3], macd_signal.iloc[-3], macd_line.iloc[-2], macd_signal.iloc[-2]
+        # -2 because we want macd of finished candles, not ones which are still in formation
+
+    def _atr(self) -> float:
+        atr = 0.0
+        for i in self.candles[-15:-1]:
+            atr += abs(i.close - i.open)
+        return atr/14
+
+    def _check_signal(self):
+        # runs only if new candle
+        macd_line_secondlast, macd_signal_secondlast, macd_line_last, macd_signal_last = self._macd_last_two()
+        ema_value = self._ema()
+        atr = self._atr()
+
+        last_completed_candle = self.candles[-2]
+        if last_completed_candle.close > ema_value + 0.7*atr:
+            if macd_line_secondlast < -0.002 and (macd_signal_secondlast - macd_line_secondlast)*(macd_signal_last-macd_line_last) < 0:
+                return 1
+        elif last_completed_candle.close < ema_value - 0.7*atr:
+            if macd_line_secondlast > 0.002 and (macd_signal_secondlast - macd_line_secondlast)*(macd_signal_last-macd_line_last) < 0:
+                return -1
+        else:
+            return 0
+
+    def check_trade(self, tick_type: str):
+        if tick_type == "new_candle" and not self.ongoing_position:  # take trade only if no open positions yet
+            signal_result = self._check_signal()
+
+            if signal_result in [-1, 1]:
                 self._open_position(signal_result)

@@ -35,7 +35,7 @@ class BinanceSpotClient:
         self._headers = {'X-MBX-APIKEY': self._public_key}
 
         self.Balances: typing.Dict[str, SpotBalance] = self._get_snapshot()  # gets a snapshot of user balances
-        self.contracts = self.get_contracts()  # gets exchange information about symbols and their trading
+        self.contracts: typing.Dict[str, Contract] = self.get_contracts()  # gets exchange information about symbols and their trading
         self.prices = dict()
 
         self.strategies: typing.Dict[int, typing.Union[TechnicalStrategy, BreakoutStrategy]] = dict()
@@ -135,7 +135,7 @@ class BinanceSpotClient:
 
     def get_bid_ask(self, contract: Contract) -> typing.Dict[str, float]:
         # bid and ask price of given contract
-        # logger.info("Running get_bid_ask")
+
         bid_and_ask = self._make_request("GET", "/api/v3/ticker/bookTicker", {'symbol': contract.symbol})
 
         if bid_and_ask is not None:
@@ -201,9 +201,9 @@ class BinanceSpotClient:
     def _on_open(self, ws):
         logger.info("Binance  Websocket connection opened")
 
-        lst = [self.contracts['BTCUSDT']]
+        lst = list(self.contracts.values())
         self.subscribe_channel(lst, "bookTicker")
-        self.subscribe_channel(lst, "aggTrade")  # somesome message about this aggTrade at vid 41, 7:28
+        self.subscribe_channel(lst, "aggTrade")  # some some message about this aggTrade at vid 41, 7:28
 
     def _on_close(self, ws):
         logger.warning("Binance  Websocket connection closed")
@@ -226,7 +226,6 @@ class BinanceSpotClient:
         """
 
         if "e" in data:
-
             if data["e"] == "bookTicker":
                 symbol = data["s"]
                 if symbol not in self.prices:  # if not in dictionary already, make
@@ -270,6 +269,7 @@ class BinanceSpotClient:
 
         for contract in contracts:
             data['params'].append(contract.symbol.lower() + "@" + channel)
+
         data['id'] = self._ws_id
         self._ws_id += 1
 
@@ -277,8 +277,7 @@ class BinanceSpotClient:
             self._ws.send(json.dumps(data))
             logger.info("Successfully subscribed")
         except Exception as e:
-            logger.error("Binance  Websocket error while subscribing to %s %s updates: %s", len(contracts), channel,
-                         e)
+            logger.error("Binance Websocket error while subscribing to %s %s updates: %s", len(contracts), channel, e)
 
 
     def get_trade_size(self, contract: Contract, price: float, balance_pct: float):

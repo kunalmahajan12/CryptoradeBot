@@ -4,7 +4,7 @@ import typing
 from interface.styling import *
 from connectors.binance_spot import BinanceSpotClient
 from connectors.binance_margin import BinanceMarginClient
-from strategies import TechnicalStrategy, BreakoutStrategy
+from strategies import TechnicalStrategy, BreakoutStrategy, MacdEmaStrategy
 
 
 class StrategyEditor(tk.Frame):
@@ -41,7 +41,7 @@ class StrategyEditor(tk.Frame):
 
         self._base_params = [
             {"code_name": "strategy_type", "widget": tk.OptionMenu, "data_type": str,
-             "values": ["Technical", "Breakout"], "width": 10},
+             "values": ["Technical", "Breakout", "MACD_EMA"], "width": 10},
             {"code_name": "contract", "widget": tk.OptionMenu, "data_type": str,
              "values": self._all_contracts, "width": 15},
             {"code_name": "timeframe", "widget": tk.OptionMenu, "data_type": str,
@@ -69,7 +69,14 @@ class StrategyEditor(tk.Frame):
             ],
             "Breakout": [
                 {"code_name": "min_volume", "name": "Minimum Volume", "widget": tk.Entry, "data_type": float}
+            ],
+            "MACD_EMA": [
+                {"code_name": "macd_ema_fast", "name": "MACD Fast Length", "widget": tk.Entry, "data_type": int},
+                {"code_name": "macd_ema_slow", "name": "MACD Slow Length", "widget": tk.Entry, "data_type": int},
+                {"code_name": "macd_ema_signal", "name": "MACD Signal Length", "widget": tk.Entry, "data_type": int},
+                {"code_name": "ema_period", "name": "EMA Period", "widget": tk.Entry, "data_type": int},
             ]
+
         }
         ##### CREATING TABLE #####
 
@@ -104,7 +111,8 @@ class StrategyEditor(tk.Frame):
             elif base_param['widget'] == tk.Button:
                 self.body_widgets[code_name][b_index] = tk.Button(self._table_frame, text=base_param['text'],
                                                                   bg=base_param['bg'], fg=FG_COLOR,
-                                                                  command=lambda frozen_command=base_param['command']: frozen_command(b_index))
+                                                                  command=lambda frozen_command=base_param[
+                                                                      'command']: frozen_command(b_index))
 
             else:
                 continue
@@ -228,6 +236,11 @@ class StrategyEditor(tk.Frame):
                 new_strategy = BreakoutStrategy(self._exchanges[exchange], contract, exchange, timeframe,
                                                 balance_percentage, take_profit, stop_loss,
                                                 self._additional_parameters[b_index])
+
+            elif strat_selected == "MACD_EMA":
+                new_strategy = MacdEmaStrategy(self._exchanges[exchange], contract, exchange, timeframe,
+                                               balance_percentage, take_profit, stop_loss,
+                                               self._additional_parameters[b_index])
             else:
                 return
 
