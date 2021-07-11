@@ -117,7 +117,8 @@ class BinanceSpotClient:
         data2['amount'] = 0.5
         data2['type'] = 2
         data2['timestamp'] = int(time.time() * 1000)
-        data2['signature'] = self._generate_signature(data)
+        data2['signature'] = self._generate_signature(data2)
+        self._make_request("POST", "/sapi/v1/margin/transfer", data=data2)
 
     def get_contracts(self) -> typing.Dict[str, Contract]:
         # gets exchange information about symbols and their trading

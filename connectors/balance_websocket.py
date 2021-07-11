@@ -167,7 +167,6 @@ class BalanceWebsocket:
         # there are two types of payloads, balanceUpdate and outboundAccountPosition
         if 'e' in data:
             if data['e'] == 'outboundAccountPosition':
-                pprint(data)
                 for i in data['B']:
                     asset = i['a']
                     free = float(i['f'])
