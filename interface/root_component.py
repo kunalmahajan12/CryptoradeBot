@@ -68,7 +68,7 @@ class Root(tk.Tk):
                             log['displayed'] = True
 
                     for trade in strategy.trades:
-                        if trade.time not in self._trades_frame.body_widgets['time']: #time or Symbol?
+                        if trade.time not in self._trades_frame.body_widgets['time']:
                             self._trades_frame.add_trade(trade)
 
                         precision = trade.contract.base_asset_decimals

@@ -1,3 +1,5 @@
+import math
+
 class SpotBalance:
     def __init__(self, data):
         self.asset = data['asset']
@@ -15,10 +17,10 @@ class Contract:
         self.symbol = contract_data['symbol']
         self.base_asset = contract_data['baseAsset']
         self.quote_asset = contract_data['quoteAsset']
-        self.base_asset_decimals = contract_data['baseAssetPrecision']
+        self.tick_size = float(contract_data['filters'][2]['stepSize'])
+        self.base_asset_decimals = int(-math.log10(self.tick_size))
         self.exchange = exchange
         # self.quote_asset_decimals = contract_data['quotePrecision']
-        self.tick_size = 1.0 / pow(10, self.base_asset_decimals)
         # self.lot_size = 1.0 / pow(10, self.quantity_decimals)
 
 # class Balance:

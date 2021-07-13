@@ -1,9 +1,11 @@
+import datetime
 import logging
 import time
 import typing
 import pandas as pd
 from threading import Timer
 from models import *
+
 # we needed to import clients to facilitate the coding process by telling which 'client' it is
 # but this would lead to circular importing
 # to avoid this
@@ -24,16 +26,21 @@ TF_EQUIV = {
 
 
 class Strategy:
-    def __init__(self, client: typing.Union["BinanceSpotClient", "BinanceMarginClient"], contract: Contract, exchange: str, timeframe: str, balance_pct: float, take_profit: float,
-                 stop_loss: float, strat_name):
+    def __init__(self, client: typing.Union["BinanceSpotClient", "BinanceMarginClient"], contract: Contract,
+                 exchange: str, timeframe: str, balance_pct: float, risk_to_reward: float, strat_name):
 
         self.client = client
         self.contract = contract
         self.exchange = exchange
         self.tf = timeframe
         self.balance_pct = balance_pct
-        self.take_profit = take_profit
-        self.stop_loss = stop_loss
+
+        # take_profit% and stop_loss% not really used because we'll calculate exit levels based on support and
+        # resistance
+        self.profit_line = None
+        self.stop_loss_line = None
+        self.risk_to_reward = risk_to_reward
+
         self.tf_equiv = TF_EQUIV[timeframe] * 1000
         self.strat_name = strat_name
 
@@ -73,7 +80,7 @@ class Strategy:
             # Check take profit/ stop loss
             for trade in self.trades:
                 if trade.status == "open" and trade.entry_price is not None:
-                    self._check_tp_sl(trade)
+                    self._check_exit(trade)
 
             return "same_candle"
 
@@ -147,11 +154,14 @@ class Strategy:
 
     def _open_position(self, signal_result: int):
         # market order
+
         trade_size = self.client.get_trade_size(self.contract, self.candles[-1].close, self.balance_pct)
         # number of units to buy
 
         if trade_size is None:
             return
+        else:
+            trade_size = round(trade_size, self.contract.base_asset_decimals)
 
         # we can log that signal has been triggered, but we can't let two threads interfere
         # since logger is on parent thread and this runs on websocket thread
@@ -176,32 +186,130 @@ class Strategy:
                 t = Timer(2.0, lambda: self._check_order_status(order_status.order_id))
                 t.start()
 
-            new_trade = Trade({"time": int(time.time()*1000), "entry_price": avg_fill_price,
+            new_trade = Trade({"time": int(time.time() * 1000), "entry_price": avg_fill_price,
                                "contract": self.contract, "strategy": self.strat_name, "side": position_side,
                                "status": "open", "pnl": 0, "quantity": trade_size, "entry_id": order_status.order_id})
             self.trades.append(new_trade)
-        #make sure spot doesn't short
+            self._set_exit_points(new_trade)
+        # make sure spot doesn't short
 
-    def _check_tp_sl(self, trade: Trade):
+    def _atr(self) -> float:
+        atr = 0.0
+        for i in self.candles[-15:-1]:
+            atr += abs(i.close - i.open)
+        return atr / 14
+
+    def _set_exit_points(self, trade: Trade):
+        candle_closes = []
+        for i in self.candles[:-1]:
+            candle_closes.append(i.close)
+
+        # SUPPORT LEVEL
+        pivots = []
+        dates = []
+        counter = 0
+        lastPivot = 0
+        Range = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        daterange = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        for i in candle_closes:
+            currentMax = min(Range, default=0)
+            value = i
+
+            Range = Range[1:9]
+            Range.append(value)
+
+            if currentMax == min(Range, default=0):
+                counter += 1
+            else:
+                counter = 0
+            if counter == 5:
+                lastPivot = currentMax
+                pivots.append(lastPivot)
+        pivots = pivots[-10:]
+
+        # RESISTANCE LEVEL
+        pivots_res = []
+        dates_res = []
+        counter_res = 0
+        lastPivot_res = 0
+        Range_res = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        daterange_res = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        for i in candle_closes:
+            currentMax = max(Range_res, default=0)
+            value = i
+
+            Range_res = Range_res[1:9]
+            Range_res.append(value)
+
+            if currentMax == max(Range_res, default=0):
+                counter += 1
+            else:
+                counter = 0
+            if counter == 5:
+                lastPivot_res = currentMax
+                pivots_res.append(lastPivot_res)
+        pivots_res = pivots_res[-10:]
+
+        key_levels = sorted(pivots + pivots_res)
+        atr_value = self._atr()
+        if trade.side.upper() == "LONG":
+            # stop loss will be lower
+            stop_loss = None
+            for i in reversed(key_levels):
+                if i < self.candles[-2].low:
+                    stop_loss = i
+                    break
+            if stop_loss is None:
+                logger.error("No minimum stop loss found for %s %s", self.contract.symbol, self.tf)
+                stop_loss = key_levels[0]
+
+            self.stop_loss_line = stop_loss - atr_value
+            if self.candles[-2].close < self.stop_loss_line:
+                logger.error("PROBLEM WITH TRADE EXIT LEVEL CALCULATION %s %s while longing", self.contract.symbol, self.tf) #what to do here?
+            self.profit_line = (self.candles[-2].close - self.stop_loss_line) * self.risk_to_reward + self.candles[-2].close
+            return
+
+        elif trade.side.upper() == "SHORT":
+            # stop loss will be above
+            stop_loss = None
+            for i in key_levels:
+                if i > self.candles[-2].high:
+                    stop_loss = i
+                    break
+            if stop_loss is None:
+                logger.error("No maximum stop loss found for %s %s", self.contract.symbol, self.tf)
+                stop_loss = key_levels[-1]
+
+            self.stop_loss_line = stop_loss + atr_value
+            if self.candles[-2].close > self.stop_loss_line:
+                logger.error("PROBLEM WITH TRADE  EXIT LEVEL CALCULATION %s %s while shorting", self.contract.symbol, self.tf) #what to do here?
+            self.profit_line =  self.candles[-2].close - (self.stop_loss_line - self.candles[-2].close) * self.risk_to_reward
+            return
+
+        else:
+            logger.error("Invalid trade side for %s %s", self.contract.symbol, self.tf)
+
+    def _check_exit(self, trade: Trade):
         tp_triggered = False
         sl_triggered = False
 
-        price = self.candles[-1].close
-        if trade.side == "long":
-            if self.stop_loss is not None:
-                if price <= trade.entry_price * (1 - self.stop_loss / 100):
-                    sl_triggered = True
-            if self.take_profit is not None:
-                if price >= trade.entry_price * (1 + self.take_profit / 100):
-                    tp_triggered = True
+        if self.profit_line is None or self.stop_loss_line is None:
+            self._set_exit_points(trade)
 
-        if trade.side == "short":
-            if self.stop_loss is not None:
-                if price >= trade.entry_price * (1 + self.stop_loss / 100):
-                    sl_triggered = True
-            if self.take_profit is not None:
-                if price <= trade.entry_price * (1 - self.take_profit / 100):
-                    tp_triggered = True
+        price = self.candles[-1].close
+        if trade.side.upper() == "LONG":
+            if price >= self.profit_line:
+                tp_triggered = True
+            if price <= self.stop_loss_line:
+                sl_triggered = True
+
+        if trade.side.upper() == "SHORT":
+            if price <= self.profit_line:
+                tp_triggered = True
+            if price >= self.stop_loss_line:
+                sl_triggered = True
 
         if tp_triggered or sl_triggered:
             self._add_log((f"{'Stop loss' if sl_triggered else 'Take profit'} for {self.contract.symbol} {self.tf}"))
@@ -212,12 +320,15 @@ class Strategy:
             if order_status is not None:
                 self._add_log(f"Exit order on {self.contract.symbol} {self.tf} placed successfully")
                 trade.status = "closed"
+                self.stop_loss_line = None
+                self.profit_line = None
                 self.ongoing_position = False
 
+
 class TechnicalStrategy(Strategy):
-    def __init__(self, client, contract: Contract, exchange: str, timeframe: str, balance_pct: float, take_profit: float,
-                 stop_loss: float, other_params: typing.Dict):
-        super().__init__(client, contract, exchange, timeframe, balance_pct, take_profit, stop_loss, "Technical")
+    def __init__(self, client, contract: Contract, exchange: str, timeframe: str, balance_pct: float,
+                 risk_to_reward: float, other_params: typing.Dict):
+        super().__init__(client, contract, exchange, timeframe, balance_pct, risk_to_reward, "Technical")
 
         self._ema_fast = other_params['ema_fast']
         self._ema_slow = other_params['ema_slow']
@@ -284,9 +395,9 @@ class TechnicalStrategy(Strategy):
 
 
 class BreakoutStrategy(Strategy):
-    def __init__(self, client, contract: Contract, exchange: str, timeframe: str, balance_pct: float, take_profit: float,
-                 stop_loss: float, other_params: typing.Dict):
-        super().__init__(client, contract, exchange, timeframe, balance_pct, take_profit, stop_loss, "Breakout")
+    def __init__(self, client, contract: Contract, exchange: str, timeframe: str, balance_pct: float,
+                 risk_to_reward: float, other_params: typing.Dict):
+        super().__init__(client, contract, exchange, timeframe, balance_pct, risk_to_reward, "Breakout")
 
         self._min_volume = other_params['min_volume']
 
@@ -306,9 +417,9 @@ class BreakoutStrategy(Strategy):
 
 
 class MacdEmaStrategy(Strategy):
-    def __init__(self, client, contract: Contract, exchange: str, timeframe: str, balance_pct: float, take_profit: float,
-                 stop_loss: float, other_params: typing.Dict):
-        super().__init__(client, contract, exchange, timeframe, balance_pct, take_profit, stop_loss, "Technical")
+    def __init__(self, client, contract: Contract, exchange: str, timeframe: str, balance_pct: float,
+                 risk_to_reward: float, other_params: typing.Dict):
+        super().__init__(client, contract, exchange, timeframe, balance_pct, risk_to_reward, "Technical")
 
         self._macd_ema_fast = other_params['macd_ema_fast']
         self._macd_ema_slow = other_params['macd_ema_slow']
@@ -340,16 +451,10 @@ class MacdEmaStrategy(Strategy):
 
         macd_signal = macd_line.ewm(span=self._macd_ema_signal).mean()
 
-        min_macd_for_trade = (pd.Series(macd_line-macd_signal).apply(lambda x: abs(x)).mean())*0.85
+        min_macd_for_trade = (pd.Series(macd_line - macd_signal).apply(lambda x: abs(x)).mean()) * 0.85
 
         return macd_line.iloc[-3], macd_signal.iloc[-3], macd_line.iloc[-2], macd_signal.iloc[-2], min_macd_for_trade
         # -2 because we want macd of finished candles, not ones which are still in formation
-
-    def _atr(self) -> float:
-        atr = 0.0
-        for i in self.candles[-15:-1]:
-            atr += abs(i.close - i.open)
-        return atr/14
 
     def _check_signal(self):
         # runs only if new candle
@@ -358,11 +463,13 @@ class MacdEmaStrategy(Strategy):
         atr = self._atr()
 
         last_completed_candle = self.candles[-2]
-        if last_completed_candle.close > ema_value + 0.7*atr:
-            if macd_line_secondlast < -1 * min_macd_for_trade and (macd_signal_secondlast - macd_line_secondlast)*(macd_signal_last-macd_line_last) < 0:
+        if last_completed_candle.close > ema_value + 0.7 * atr:
+            if macd_line_secondlast < -1 * min_macd_for_trade and (macd_signal_secondlast - macd_line_secondlast) * (
+                    macd_signal_last - macd_line_last) < 0:
                 return 1
-        elif last_completed_candle.close < ema_value - 0.7*atr:
-            if macd_line_secondlast > min_macd_for_trade and (macd_signal_secondlast - macd_line_secondlast)*(macd_signal_last-macd_line_last) < 0:
+        elif last_completed_candle.close < ema_value - 0.7 * atr:
+            if macd_line_secondlast > min_macd_for_trade and (macd_signal_secondlast - macd_line_secondlast) * (
+                    macd_signal_last - macd_line_last) < 0:
                 return -1
         else:
             return 0

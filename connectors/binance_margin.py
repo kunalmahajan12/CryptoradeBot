@@ -14,7 +14,7 @@ import requests
 from pprint import pprint
 import typing
 from models import *
-from strategies import TechnicalStrategy, BreakoutStrategy
+from strategies import TechnicalStrategy, BreakoutStrategy, MacdEmaStrategy
 
 logger = logging.getLogger()
 
@@ -40,7 +40,7 @@ class BinanceMarginClient:
         self.contracts: typing.Dict[str, Contract] = self.get_contracts()  # gets exchange information about symbols and their trading
         self.prices = dict()
 
-        self.strategies: typing.Dict[int, typing.Union[TechnicalStrategy, BreakoutStrategy]] = dict()
+        self.strategies: typing.Dict[int, typing.Union[TechnicalStrategy, BreakoutStrategy, MacdEmaStrategy]] = dict()
 
         self.logs = []
 
@@ -298,7 +298,7 @@ class BinanceMarginClient:
 
         trade_size = (balance * balance_pct / 100) / price  #USDT amount to invest
         trade_size = round((round(trade_size / contract.tick_size) * contract.tick_size), 8)
-        logger.info("Binance Margin current USDT balance = %s, trade size = %s",balance,trade_size)
+        logger.info("MARGIN- signal for %s: current USDT balance = %s, trade size = %s", contract.symbol, balance, trade_size)
 
         return trade_size
 
@@ -307,24 +307,24 @@ class BinanceMarginClient:
     def place_order(self, contract: Contract, order_type: str, quantity: float, side: str, price=None, tif=None) -> OrderStatus:
 
         data = dict()
-        ask = self.get_bid_ask(self.contracts['ETHUSDT'])['bid']
-        print("Total cost: " + str(ask * quantity))
+        ask = self.get_bid_ask(contract)['bid']
+        print(f"{contract.symbol}, quantity = {quantity}, at total cost: {ask * quantity}")
 
         data['symbol'] = contract.symbol
         data['side'] = side.upper()  # BUY / SELL
-        data['quantity'] = round(quantity, contract.base_asset_decimals)
+        data['quantity'] = quantity
         data['type'] = order_type.upper()
 
-        if price is not None:
-            data['price'] = round(round(price / contract.tick_size) * contract.tick_size, 8)
-            # can we use round(price, contract.tick_size) ??
+        # if price is not None:
+        #     data['price'] = round(round(price / contract.tick_size) * contract.tick_size, 8)
+        #     # can we use round(price, contract.tick_size) ??
 
         if tif is not None:
             data['timeInForce'] = tif
         data['timestamp'] = int(time.time() * 1000)
         data['signature'] = self._generate_signature(data)
 
-        order_status = self._make_request("POST", "/api/v3/order", data)
+        order_status = self._make_request("POST", "/api/v3/order", data)  # add /test in end for test order
 
         if order_status is not None:
             order_status = OrderStatus(order_status)
