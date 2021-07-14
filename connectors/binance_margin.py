@@ -16,12 +16,14 @@ import typing
 from models import *
 from strategies import TechnicalStrategy, BreakoutStrategy, MacdEmaStrategy
 
+from connectors.binance_spot import BinanceSpotClient
+
 logger = logging.getLogger()
 
 
 class BinanceMarginClient:
-    def __init__(self, public_key: str, secret_key: str, testnet: bool):  # constructor
-
+    def __init__(self, spot: BinanceSpotClient, public_key: str, secret_key: str, testnet: bool):  # constructor
+        self.spot_client = spot
         if testnet:
             self._base_url = "https://testnet.binance.vision/api"
             self._wss_url = "wss://stream.binancefuture.com/ws"
@@ -286,25 +288,91 @@ class BinanceMarginClient:
                          e)
 
 
-    def get_trade_size(self, contract: Contract, price: float, balance_pct: float):
-        balance = self.Balances
+    def get_trade_size(self, contract: Contract, price: float, usdt_input: float):
+        balance = self.spot_client.Balances
         if balance is not None:
             if 'USDT' in balance:
                 balance = balance['USDT'].free
+                if balance < usdt_input:
+                    return None
             else:
                 return None
         else:
             return None
 
-        trade_size = (balance * balance_pct / 100) / price  #USDT amount to invest
+        trade_size = usdt_input / price  #USDT amount to invest
         trade_size = round((round(trade_size / contract.tick_size) * contract.tick_size), 8)
         logger.info("MARGIN- signal for %s: current USDT balance = %s, trade size = %s", contract.symbol, balance, trade_size)
 
         return trade_size
 
+
+    def _transfer_funds(self, amount: float, direction: int):
+        """
+        :param amount: amount of USDT
+        :param direction: 1 for spot -> margin, 2 for margin -> spot
+        :return: transactionId or None
+        """
+
+        data = dict()
+        data['asset'] = "USDT"
+        data['amount'] = amount
+        data['type'] = direction
+        data['timestamp'] = int(time.time() * 1000)
+        data['signature'] = self._generate_signature(data)
+
+        transfer_status = self._make_request("POST", "/sapi/v1/margin/transfer", data=data)
+
+        if transfer_status is not None:
+            logger.info(f"Transferred {amount} USDT from {'spot' if direction==1 else 'margin'} to {'margin' if direction==1 else 'spot'}")
+            return transfer_status['tranId']
+        else:
+            return None
+
+    def _borrow_funds(self, asset: str, amount: float):
+
+        data = dict()
+        data['asset'] = asset
+        data['amount'] = amount
+        data['timestamp'] = int(time.time() * 1000)
+        data['signature'] = self._generate_signature(data)
+
+        borrow_status = self._make_request("POST", "/sapi/v1/margin/loan", data)
+
+        if borrow_status is not None:
+            logger.info(f"Borrowed {amount} {asset} on Binance Margin")
+            return borrow_status['tranId']
+        else:
+            return None
+
+    def _repay_funds(self, asset: str, amount: float):
+        data = dict()
+        data['asset'] = asset
+        amount = min(amount, self.Balances[asset].free)
+
+        data['amount'] = amount
+        data['timestamp'] = int(time.time() * 1000)
+        data['signature'] = self._generate_signature(data)
+
+        repay_status = self._make_request("POST", "/sapi/v1/margin/repay", data)
+        if repay_status is not None:
+            logger.info(f"Repayed {amount} {asset} on Binance Margin")
+            return repay_status['tranId']
+        else:
+            return None
+
+    def _margin_balance(self):
+        data = dict()
+        data['timestamp'] = int(time.time() * 1000)
+        data['signature'] = self._generate_signature(data)
+
+        response = self._make_request("GET", "/sapi/v1/margin/account", data)
+
+        pprint(response)
+
 ########### ORDERS ###########
 
-    def place_order(self, contract: Contract, order_type: str, quantity: float, side: str, price=None, tif=None) -> OrderStatus:
+    def place_order(self, contract: Contract, order_type: str, quantity: float, side: str,  usdt_total: float, entry_or_exit: str, price=None, tif=None) -> OrderStatus:
 
         data = dict()
         ask = self.get_bid_ask(contract)['bid']
@@ -315,26 +383,94 @@ class BinanceMarginClient:
         data['quantity'] = quantity
         data['type'] = order_type.upper()
 
-        # if price is not None:
-        #     data['price'] = round(round(price / contract.tick_size) * contract.tick_size, 8)
-        #     # can we use round(price, contract.tick_size) ??
-
         if tif is not None:
             data['timeInForce'] = tif
-        data['timestamp'] = int(time.time() * 1000)
-        data['signature'] = self._generate_signature(data)
 
-        order_status = self._make_request("POST", "/api/v3/order", data)  # add /test in end for test order
+        order_status = None
+        if entry_or_exit == "ENTRY":
+            order_status = self._entry_order(data=data, usdt_total=usdt_total)
+        elif entry_or_exit == "EXIT":
+            order_status = self._exit_order(data=data, usdt_total=usdt_total)
 
         if order_status is not None:
             order_status = OrderStatus(order_status)
-
+            print("TRADE COMPLETED!")
+        else:
+            print("TRADE FAILED!")
         return order_status
 
-    # make a list of active orders to manage!
-    # make a data model of Order!
-    # another function needed for OCO orders
+    def _entry_order(self, data: typing.Dict, usdt_total):
+        side = data['side']
+        if side == "BUY":
+            self._transfer_funds(usdt_total+3, 1)
+            data['timestamp'] = int(time.time() * 1000)
+            data['signature'] = self._generate_signature(data)
+            order_status = self._make_request("POST", "/sapi/v1/margin/order", data)
+            if order_status is None:
+                self._transfer_funds(usdt_total+3, 2)
+            return order_status
 
+        elif side == "SELL":
+            transfer_status = self._transfer_funds(usdt_total+3, 1)
+            if transfer_status is None:
+                return None
+
+            borrow_status = self._borrow_funds(asset=data['symbol'][:-4], amount=data['quantity'])
+            if borrow_status is None:
+                return None
+
+            data['timestamp'] = int(time.time() * 1000)
+            data['signature'] = self._generate_signature(data)
+            order_status = self._make_request("POST", "/sapi/v1/margin/order", data)
+
+            if order_status is None:
+                repay_status = self._repay_funds(asset=data['symbol'][:-4], amount=data['quantity'])
+                if repay_status is None:
+                    print("REPAY FAILED! PLEASE DO MANUALLY")
+                self._transfer_funds(usdt_total+3, 2)
+            return order_status
+
+        else:
+            return None
+
+
+    def _exit_order(self, data: typing.Dict, usdt_total):
+        side = data['side']
+        if side == "SELL":
+            asset = data['symbol'][:-4]
+            qty = min(data['quantity'], self.Balances[asset].free)
+            qty = int(qty * pow(10, self.contracts[data['symbol']].base_asset_decimals)) / pow(10, self.contracts[data['symbol']].base_asset_decimals)
+
+            data1 = {'symbol': data['symbol'], 'side': data['side'],
+                     'quantity': qty, 'type': data['type'],
+                     'timestamp': int(time.time() * 1000)}
+            data1['signature'] = self._generate_signature(data1)
+            order_status = self._make_request("POST", "/sapi/v1/margin/order", data1)
+            if order_status is None:
+                return None
+            self._transfer_funds(int(usdt_total), 2)
+            return order_status
+
+        if side == "BUY":
+            data['timestamp'] = int(time.time() * 1000)
+            data['signature'] = self._generate_signature(data)
+            order_status = self._make_request("POST", "/sapi/v1/margin/order", data)
+            if order_status is None:
+                return None
+
+            repay_status = self._repay_funds(asset=data['symbol'][:-4], amount=data['quantity'])
+            if repay_status is None:
+                print("REPAY FAILED! PLEASE DO MANUALLY")
+                return order_status
+
+            transfer_status = self._transfer_funds(int(usdt_total), 2)
+            if transfer_status is None:
+                print("TRANSFER FROM MARGIN TO SPOT FAILED! PLEASE DO MANUALLY")
+
+            return order_status
+
+        else:
+            return None
 
     def cancel_order(self, contract: Contract, order_id: int) -> OrderStatus:
         data = dict()

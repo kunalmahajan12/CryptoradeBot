@@ -245,8 +245,8 @@ class BinanceSpotClient:
                     for b_index, strat in self.strategies.items():
                         if strat.contract.symbol == symbol:
                             for trade in strat.trades:
-                                if trade.status == "open" and trade.entry_price is not None:
-                                    if trade.side == "long":
+                                if trade.status.lower() == "open" and trade.entry_price is not None:
+                                    if trade.side.lower() == "long":
                                         trade.pnl = (self.prices[symbol][
                                                          'bid'] - trade.entry_price) * trade.quantity
                                     if trade.side == "short":
@@ -283,7 +283,7 @@ class BinanceSpotClient:
             logger.error("Binance Websocket error while subscribing to %s %s updates: %s", len(contracts), channel, e)
 
 
-    def get_trade_size(self, contract: Contract, price: float, balance_pct: float):
+    def get_trade_size(self, contract: Contract, price: float, usdt_input: float):
         balance = self.Balances
         if balance is not None:
             if 'USDT' in balance:
@@ -293,7 +293,7 @@ class BinanceSpotClient:
         else:
             return None
 
-        trade_size = (balance * balance_pct / 100) / price  #USDT amount to invest
+        trade_size = usdt_input / price  # USDT amount to invest
         trade_size = round((round(trade_size / contract.tick_size) * contract.tick_size), 8)
         logger.info("SPOT- signal for %s: current USDT balance = %s, trade size = %s", contract.symbol, balance, trade_size)
 
@@ -302,7 +302,7 @@ class BinanceSpotClient:
 
     ########### ORDERS ###########
 
-    def place_order(self, contract: Contract, order_type: str, quantity: float, side: str, price=None, tif=None) -> OrderStatus:
+    def place_order(self, contract: Contract, order_type: str, quantity: float, side: str,  usdt_total: float, entry_or_exit: str, price=None, tif=None) -> OrderStatus:
         data = dict()
         ask = self.get_bid_ask(contract)['bid']
         print(f"{contract.symbol}, quantity = {quantity}, at total cost: {ask * quantity}")

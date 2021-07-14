@@ -27,13 +27,13 @@ TF_EQUIV = {
 
 class Strategy:
     def __init__(self, client: typing.Union["BinanceSpotClient", "BinanceMarginClient"], contract: Contract,
-                 exchange: str, timeframe: str, balance_pct: float, risk_to_reward: float, strat_name):
+                 exchange: str, timeframe: str, usdt_input: float, risk_to_reward: float, strat_name):
 
         self.client = client
         self.contract = contract
         self.exchange = exchange
         self.tf = timeframe
-        self.balance_pct = balance_pct
+        self.usdt_input = usdt_input
 
         # take_profit% and stop_loss% not really used because we'll calculate exit levels based on support and
         # resistance
@@ -155,7 +155,7 @@ class Strategy:
     def _open_position(self, signal_result: int):
         # market order
 
-        trade_size = self.client.get_trade_size(self.contract, self.candles[-1].close, self.balance_pct)
+        trade_size = self.client.get_trade_size(self.contract, self.candles[-1].close, self.usdt_input)
         # number of units to buy
 
         if trade_size is None:
@@ -172,7 +172,7 @@ class Strategy:
 
         self._add_log(f"{position_side.capitalize()} signal on {self.contract.symbol} {self.tf}")
 
-        order_status = self.client.place_order(self.contract, "MARKET", trade_size, order_side)
+        order_status = self.client.place_order(self.contract, "MARKET", trade_size, order_side, self.usdt_input, "ENTRY")
         avg_fill_price = None
 
         if order_status is not None:
@@ -285,7 +285,7 @@ class Strategy:
             self.stop_loss_line = stop_loss + atr_value
             if self.candles[-2].close > self.stop_loss_line:
                 logger.error("PROBLEM WITH TRADE  EXIT LEVEL CALCULATION %s %s while shorting", self.contract.symbol, self.tf) #what to do here?
-            self.profit_line =  self.candles[-2].close - (self.stop_loss_line - self.candles[-2].close) * self.risk_to_reward
+            self.profit_line = self.candles[-2].close - (self.stop_loss_line - self.candles[-2].close) * self.risk_to_reward
             return
 
         else:
@@ -315,7 +315,7 @@ class Strategy:
             self._add_log((f"{'Stop loss' if sl_triggered else 'Take profit'} for {self.contract.symbol} {self.tf}"))
 
             order_side = "SELL" if trade.side == "long" else "BUY"
-            order_status = self.client.place_order(self.contract, "MARKET", trade.quantity, order_side)
+            order_status = self.client.place_order(self.contract, "MARKET", trade.quantity, order_side, self.usdt_input, "EXIT")
 
             if order_status is not None:
                 self._add_log(f"Exit order on {self.contract.symbol} {self.tf} placed successfully")
@@ -326,9 +326,9 @@ class Strategy:
 
 
 class TechnicalStrategy(Strategy):
-    def __init__(self, client, contract: Contract, exchange: str, timeframe: str, balance_pct: float,
+    def __init__(self, client, contract: Contract, exchange: str, timeframe: str, usdt_input: float,
                  risk_to_reward: float, other_params: typing.Dict):
-        super().__init__(client, contract, exchange, timeframe, balance_pct, risk_to_reward, "Technical")
+        super().__init__(client, contract, exchange, timeframe, usdt_input, risk_to_reward, "Technical")
 
         self._ema_fast = other_params['ema_fast']
         self._ema_slow = other_params['ema_slow']
@@ -395,9 +395,9 @@ class TechnicalStrategy(Strategy):
 
 
 class BreakoutStrategy(Strategy):
-    def __init__(self, client, contract: Contract, exchange: str, timeframe: str, balance_pct: float,
+    def __init__(self, client, contract: Contract, exchange: str, timeframe: str, usdt_input: float,
                  risk_to_reward: float, other_params: typing.Dict):
-        super().__init__(client, contract, exchange, timeframe, balance_pct, risk_to_reward, "Breakout")
+        super().__init__(client, contract, exchange, timeframe, usdt_input, risk_to_reward, "Breakout")
 
         self._min_volume = other_params['min_volume']
 
@@ -417,9 +417,9 @@ class BreakoutStrategy(Strategy):
 
 
 class MacdEmaStrategy(Strategy):
-    def __init__(self, client, contract: Contract, exchange: str, timeframe: str, balance_pct: float,
+    def __init__(self, client, contract: Contract, exchange: str, timeframe: str, usdt_input: float,
                  risk_to_reward: float, other_params: typing.Dict):
-        super().__init__(client, contract, exchange, timeframe, balance_pct, risk_to_reward, "Technical")
+        super().__init__(client, contract, exchange, timeframe, usdt_input, risk_to_reward, "Technical")
 
         self._macd_ema_fast = other_params['macd_ema_fast']
         self._macd_ema_slow = other_params['macd_ema_slow']

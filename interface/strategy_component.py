@@ -47,7 +47,7 @@ class StrategyEditor(tk.Frame):
             {"code_name": "timeframe", "widget": tk.OptionMenu, "data_type": str,
              "values": self._all_timeframes, "width": 7},
 
-            {"code_name": "balance_percentage", "widget": tk.Entry, "data_type": float, "width": 7},
+            {"code_name": "usdt_input", "widget": tk.Entry, "data_type": float, "width": 7},
             {"code_name": "risk_to_reward", "widget": tk.Entry, "data_type": float, "width": 7},
 
             {"code_name": "parameters", "widget": tk.Button, "data_type": float, "text": "Parameters", "bg": BG_COLOR_2,
@@ -79,7 +79,7 @@ class StrategyEditor(tk.Frame):
         }
         ##### CREATING TABLE #####
 
-        self._headers = ["Strategy", "Contract", "Timeframe", "Balance", "R:R Ratio"]
+        self._headers = ["Strategy", "Contract", "Timeframe", "USDT Input", "R:R Ratio"]
         for idx, h in enumerate(self._headers):
             header = tk.Label(self._table_frame, text=h, bg=BG_COLOR, fg=FG_COLOR, font=BOLD_FONT)
             header.grid(row=0, column=idx)
@@ -200,7 +200,7 @@ class StrategyEditor(tk.Frame):
     def _switch_strategy(self, b_index: int):
         # one to activate/ deactivate strategy
         # one for checking that we didn't forget to add any parameters among the mandatory ones
-        for param in ["balance_percentage", "risk_to_reward"]:
+        for param in ["usdt_input", "risk_to_reward"]:
             if self.body_widgets[param][b_index].get() == "":
                 self.root.logging_frame.add_log(f"Missing {param} parameter")
                 return
@@ -219,7 +219,7 @@ class StrategyEditor(tk.Frame):
 
         contract = self._exchanges[exchange].contracts[symbol]
 
-        balance_percentage = float(self.body_widgets['balance_percentage'][b_index].get())
+        usdt_input = float(self.body_widgets['usdt_input'][b_index].get())
         risk_to_reward = float(self.body_widgets['risk_to_reward'][b_index].get())
 
         # if button is currently off, it means we clicked it to activate the strat
@@ -227,17 +227,17 @@ class StrategyEditor(tk.Frame):
 
             if strat_selected == "Technical":
                 new_strategy = TechnicalStrategy(self._exchanges[exchange], contract, exchange, timeframe,
-                                                 balance_percentage, risk_to_reward,
+                                                 usdt_input, risk_to_reward,
                                                  self._additional_parameters[b_index])
 
             elif strat_selected == "Breakout":
                 new_strategy = BreakoutStrategy(self._exchanges[exchange], contract, exchange, timeframe,
-                                                balance_percentage, risk_to_reward,
+                                                usdt_input, risk_to_reward,
                                                 self._additional_parameters[b_index])
 
             elif strat_selected == "MACD_EMA":
                 new_strategy = MacdEmaStrategy(self._exchanges[exchange], contract, exchange, timeframe,
-                                               balance_percentage, risk_to_reward,
+                                               usdt_input, risk_to_reward,
                                                self._additional_parameters[b_index])
             else:
                 return

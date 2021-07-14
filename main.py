@@ -25,9 +25,8 @@ logger.addHandler(file_handler)
 
 if __name__ == '__main__':
     publicKey, secretKey = keygen.getKeys()
-
     spot = BinanceSpotClient(public_key=publicKey, secret_key=secretKey, testnet=False)
-    margin = BinanceMarginClient(public_key=publicKey, secret_key=secretKey, testnet=False)
+    margin = BinanceMarginClient(public_key=publicKey, spot= spot, secret_key=secretKey, testnet=False)
     balance_websocket = BalanceWebsocket(public_key=publicKey, secret_key=secretKey, spot=spot, margin=margin, testnet=False)
     time.sleep(1.5)  # necessary to not get error while subscribing due to external thread
     spot.make_snapshot()
