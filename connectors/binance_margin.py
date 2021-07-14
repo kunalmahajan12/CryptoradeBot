@@ -48,7 +48,9 @@ class BinanceMarginClient:
 
         ##### WEBSOCKET #####
         self._ws_id = 1
-        self._ws = None
+        self.ws: websocket.WebSocketApp
+        self.reconnect = True
+
         t = threading.Thread(target=self._start_ws)
         t.start()
 
@@ -192,14 +194,16 @@ class BinanceMarginClient:
     ########### WEBSOCKET ############
 
     def _start_ws(self):
-        self._ws = websocket.WebSocketApp(self._wss_url,
-                                          on_open=self._on_open,
-                                          on_close=self._on_close,
-                                          on_error=self._on_error,
-                                          on_message=self._on_message)
+        self.ws = websocket.WebSocketApp(self._wss_url,
+                                         on_open=self._on_open,
+                                         on_error=self._on_error,
+                                         on_message=self._on_message)
         while True:
             try:
-                self._ws.run_forever()
+                if self.reconnect:
+                    self.ws.run_forever()
+                else:
+                    break
             except Exception as e:
                 logger.error("Binance error in run_forever() method: %s", e)
             time.sleep(2)
@@ -281,7 +285,7 @@ class BinanceMarginClient:
         self._ws_id += 1
 
         try:
-            self._ws.send(json.dumps(data))
+            self.ws.send(json.dumps(data))
             logger.info("Successfully subscribed")
         except Exception as e:
             logger.error("Binance Margin Websocket error while subscribing to %s %s updates: %s", len(contracts), channel,

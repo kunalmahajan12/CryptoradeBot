@@ -1,9 +1,11 @@
 import logging
 import tkinter as tk
+from tkinter.messagebox import askquestion
 import logging
 
 from connectors.binance_spot import BinanceSpotClient
 from connectors.binance_margin import BinanceMarginClient
+from connectors.balance_websocket import BalanceWebsocket
 import time
 from interface.styling import *
 from interface.logging_component import Logging
@@ -14,13 +16,15 @@ from interface.strategy_component import StrategyEditor
 logger = logging.getLogger()
 
 class Root(tk.Tk):
-    def __init__(self, spot: BinanceSpotClient, margin: BinanceMarginClient):  # margin: BinanceMarginClient,
+    def __init__(self, spot: BinanceSpotClient, margin: BinanceMarginClient, balance_websocket: BalanceWebsocket):  # margin: BinanceMarginClient,
         super().__init__()
 
         self.spot = spot
         self.margin = margin
+        self.balance_websocket = balance_websocket
 
         self.title("Ishaan's Trading Bot")
+        self.protocol("WM_DELETE_WINDOW", self._ask_before_close)
 
         self.configure(bg=BG_COLOR)
 
@@ -43,6 +47,21 @@ class Root(tk.Tk):
         self._trades_frame.pack(side=tk.TOP)
 
         self._update_ui()
+
+    def _ask_before_close(self):
+        result = askquestion("Confirmation", "Do you really want to exit the application?")
+        if result == "yes":
+            self.spot.reconnect = False
+            self.margin.reconnect = False
+            self.balance_websocket.spot_reconnect = False
+            self.balance_websocket.margin_reconnect = False
+
+            self.spot.ws.close()
+            self.margin.ws.close()
+            self.balance_websocket.spot_ws.close()
+            self.balance_websocket.margin_ws.close()
+
+            self.destroy()
 
     def _update_ui(self):
 

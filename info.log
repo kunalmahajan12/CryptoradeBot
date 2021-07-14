@@ -7277,3 +7277,540 @@
 2021-07-14 14:37:33,726 INFO :: Running get_historical_candles
 2021-07-14 14:37:33,726 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
 2021-07-14 14:37:33,992 DEBUG :: https://api.binance.com:443 "GET /api/v3/klines?symbol=BTCUSDT&interval=30m&limit=1000 HTTP/1.1" 200 61674
+2021-07-14 14:41:49,995 INFO :: Running get_contracts
+2021-07-14 14:41:49,999 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 14:41:50,265 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 871
+2021-07-14 14:41:50,280 INFO :: Binance Spot Client was successfully initialized
+2021-07-14 14:41:50,280 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 14:41:51,600 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626253910280&signature=65662cc1c9fbf46738bed4caea77be5a2b2686c2e1d8f0b1dae5b4abc739e06c HTTP/1.1" 200 37
+2021-07-14 14:41:51,615 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 14:41:51,673 INFO :: Binance  Websocket connection opened
+2021-07-14 14:41:51,674 INFO :: Successfully subscribed
+2021-07-14 14:41:51,674 INFO :: Successfully subscribed
+2021-07-14 14:41:52,110 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626253911600&signature=6713f0fbb1304c4facb517d779ce3cd23c5c9bb57d1a567d889b2ac2b4e24325 HTTP/1.1" 200 37
+2021-07-14 14:41:52,114 INFO :: Running get_contracts
+2021-07-14 14:41:52,116 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 14:41:52,456 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 871
+2021-07-14 14:41:52,471 INFO :: Binance Margin Client was successfully initialized
+2021-07-14 14:41:52,471 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 14:41:53,094 INFO :: Binance Margin Websocket connection opened
+2021-07-14 14:41:53,109 INFO :: Successfully subscribed
+2021-07-14 14:41:53,111 INFO :: Successfully subscribed
+2021-07-14 14:41:53,682 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 14:41:53,697 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 14:41:53,947 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 14:41:53,947 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 14:41:54,191 DEBUG :: https://api.binance.com:443 "DELETE /api/v3/userDataStream?listenKey=54hCgKetIE5VgDVTpMU84pCUuIn2lgOFZ7lNt2XzdqheGMR8njdD7A78YIqX HTTP/1.1" 200 2
+2021-07-14 14:41:54,198 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 14:41:54,569 DEBUG :: https://api.binance.com:443 "DELETE /sapi/v1/userDataStream?listenKey=8fcy3VW0Hm6GN9BrjIhgnNivJjElR7ZO9RXufHC4OQFc9HjukY1cZRhVKuJw HTTP/1.1" 200 2
+2021-07-14 14:41:54,569 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 14:41:54,788 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 14:41:54,804 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 14:41:55,049 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 14:41:55,705 INFO :: Spot Balance Websocket connection opened
+2021-07-14 14:41:56,189 INFO :: Margin Balance Websocket connection opened
+2021-07-14 14:41:56,549 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 14:41:57,021 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626253916549&signature=38749ce81fa918d0b2285b54b52f0667188ab1f3ba68ea4171347e5973975823 HTTP/1.1" 200 37
+2021-07-14 14:41:57,021 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 14:41:57,452 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626253917021&signature=1df5eda047ead92b4108c379a1844ca89ac84191a760be28e358ef7069b086da HTTP/1.1" 200 37
+2021-07-14 15:19:09,165 INFO :: Running get_contracts
+2021-07-14 15:19:09,169 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:19:09,399 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 871
+2021-07-14 15:19:09,399 INFO :: Binance Spot Client was successfully initialized
+2021-07-14 15:19:09,399 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:19:09,970 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626256149399&signature=d7eb21cf439798454297bdfcf05ad68c4dc0ed62cc7019b3fa5932c56e02011d HTTP/1.1" 200 37
+2021-07-14 15:19:09,985 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:19:10,095 INFO :: Binance  Websocket connection opened
+2021-07-14 15:19:10,095 INFO :: Successfully subscribed
+2021-07-14 15:19:10,095 INFO :: Successfully subscribed
+2021-07-14 15:19:10,767 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626256149985&signature=3fa6551073859ebae5229076dcb4e7045f08625f5af3d44bd0c96b3ac3aa97ab HTTP/1.1" 200 37
+2021-07-14 15:19:10,767 INFO :: Running get_contracts
+2021-07-14 15:19:10,782 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:19:11,274 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 871
+2021-07-14 15:19:11,274 INFO :: Binance Margin Client was successfully initialized
+2021-07-14 15:19:11,274 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:19:11,524 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:19:11,524 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:19:11,874 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:19:11,879 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:19:11,931 INFO :: Binance Margin Websocket connection opened
+2021-07-14 15:19:11,931 INFO :: Successfully subscribed
+2021-07-14 15:19:11,931 INFO :: Successfully subscribed
+2021-07-14 15:19:12,103 DEBUG :: https://api.binance.com:443 "DELETE /api/v3/userDataStream?listenKey=wybaF1XAXTON1vmOS7Oeu6imw8uZzHZyWWnpNBhcKSEPBJTn797s6xzxzUif HTTP/1.1" 200 2
+2021-07-14 15:19:12,103 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:19:12,443 DEBUG :: https://api.binance.com:443 "DELETE /sapi/v1/userDataStream?listenKey=lRlvLVwY3MClVMQ400hWWkWSEwpf1hTrgjm9xWIxW8Jnzo99U5PvpuF51MA4 HTTP/1.1" 200 2
+2021-07-14 15:19:12,448 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:19:12,679 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:19:12,684 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:19:12,934 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:19:12,937 ERROR :: Margin Balance Websocket error in run_forever() method: socket is already opened
+2021-07-14 15:19:13,563 INFO :: Spot Balance Websocket connection opened
+2021-07-14 15:19:14,452 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:19:14,859 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626256154448&signature=0ce8cafe5109c0a22fcb8e13b97136412fc6ef3f9501b47d08523e2579a98dd3 HTTP/1.1" 200 37
+2021-07-14 15:19:14,865 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:19:14,941 ERROR :: Margin Balance Websocket error in run_forever() method: socket is already opened
+2021-07-14 15:19:15,282 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626256154862&signature=439f6bf7275f9ac4756e933752d32bf0f260fedcc22a5690877239b39eae4fa6 HTTP/1.1" 200 37
+2021-07-14 15:19:16,956 ERROR :: Margin Balance Websocket error in run_forever() method: socket is already opened
+2021-07-14 15:19:18,967 ERROR :: Margin Balance Websocket error in run_forever() method: socket is already opened
+2021-07-14 15:20:05,276 INFO :: Running get_contracts
+2021-07-14 15:20:05,292 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:20:05,542 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 871
+2021-07-14 15:20:05,542 INFO :: Binance Spot Client was successfully initialized
+2021-07-14 15:20:05,542 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:20:06,282 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626256205542&signature=9a2b19e944429d7c75f466821c21d85dabc2aea82cca3119b665dbf3d2ec8436 HTTP/1.1" 200 37
+2021-07-14 15:20:06,288 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:20:06,524 INFO :: Binance  Websocket connection opened
+2021-07-14 15:20:06,525 INFO :: Successfully subscribed
+2021-07-14 15:20:06,525 INFO :: Successfully subscribed
+2021-07-14 15:20:07,069 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626256206285&signature=77341833948efe6c821d3a781571b66105414d4f0bb1fa333c45ffaf805d779b HTTP/1.1" 200 37
+2021-07-14 15:20:07,069 INFO :: Running get_contracts
+2021-07-14 15:20:07,084 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:20:07,292 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 871
+2021-07-14 15:20:07,308 INFO :: Binance Margin Client was successfully initialized
+2021-07-14 15:20:07,308 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:20:07,527 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:20:07,542 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:20:07,855 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:20:07,871 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:20:07,949 INFO :: Binance Margin Websocket connection opened
+2021-07-14 15:20:07,949 INFO :: Successfully subscribed
+2021-07-14 15:20:07,949 INFO :: Successfully subscribed
+2021-07-14 15:20:08,105 DEBUG :: https://api.binance.com:443 "DELETE /api/v3/userDataStream?listenKey=RDvL6NkUlwipaNUznEWjkAobOviSNozVOR3i5vTIPct6kMnbuhcdCSVw90kX HTTP/1.1" 200 2
+2021-07-14 15:20:08,105 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:20:08,449 DEBUG :: https://api.binance.com:443 "DELETE /sapi/v1/userDataStream?listenKey=71ulon2ajEBOARdfxexEL7U76pKeG0jjHngAuQLGt2ccBNEqd7iMTfHWJTwT HTTP/1.1" 200 2
+2021-07-14 15:20:08,449 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:20:08,691 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:20:08,706 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:20:09,019 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:20:09,668 INFO :: Spot Balance Websocket connection opened
+2021-07-14 15:20:10,530 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:20:10,655 INFO :: Margin Balance Websocket connection opened
+2021-07-14 15:20:10,987 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626256210530&signature=df386d4b523fa736c0b56abbdde38cc7d3612162e157e14d07164172149adac6 HTTP/1.1" 200 37
+2021-07-14 15:20:11,003 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:20:11,496 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626256211003&signature=8cfb2d10ec1a19f56a005fb6b651ad547d9c7f9f145faed5714b9b38bc85e74c HTTP/1.1" 200 37
+2021-07-14 15:20:17,252 ERROR :: error from callback <bound method BinanceSpotClient._on_close of <connectors.binance_spot.BinanceSpotClient object at 0x000001EF13336160>>: _on_close() takes 2 positional arguments but 4 were given
+2021-07-14 15:20:17,456 ERROR :: error from callback <bound method BinanceMarginClient._on_close of <connectors.binance_margin.BinanceMarginClient object at 0x000001EF13336310>>: _on_close() takes 2 positional arguments but 4 were given
+2021-07-14 15:20:17,713 ERROR :: error from callback <bound method BalanceWebsocket._on_spot_close of <connectors.balance_websocket.BalanceWebsocket object at 0x000001EF1334F970>>: _on_spot_close() takes 2 positional arguments but 4 were given
+2021-07-14 15:20:17,869 ERROR :: error from callback <bound method BalanceWebsocket._on_margin_close of <connectors.balance_websocket.BalanceWebsocket object at 0x000001EF1334F970>>: _on_margin_close() takes 2 positional arguments but 4 were given
+2021-07-14 15:22:08,509 INFO :: Running get_contracts
+2021-07-14 15:22:08,509 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:22:08,775 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 871
+2021-07-14 15:22:08,775 INFO :: Binance Spot Client was successfully initialized
+2021-07-14 15:22:08,790 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:22:09,306 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626256328775&signature=c2da960c8c720393e55f7cbd29cd6588dbf2415611205abb02794ffa4dba5d1b HTTP/1.1" 200 37
+2021-07-14 15:22:09,306 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:22:09,509 INFO :: Binance  Websocket connection opened
+2021-07-14 15:22:09,509 INFO :: Successfully subscribed
+2021-07-14 15:22:09,509 INFO :: Successfully subscribed
+2021-07-14 15:22:09,775 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626256329306&signature=21539d52bb29132223643f937c3a0f2b512a0be17df49e3beab60dacff678edb HTTP/1.1" 200 37
+2021-07-14 15:22:09,775 INFO :: Running get_contracts
+2021-07-14 15:22:09,775 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:22:10,072 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 871
+2021-07-14 15:22:10,087 INFO :: Binance Margin Client was successfully initialized
+2021-07-14 15:22:10,087 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:22:10,384 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:22:10,400 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:22:10,625 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:22:10,641 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:22:10,696 INFO :: Binance Margin Websocket connection opened
+2021-07-14 15:22:10,696 INFO :: Successfully subscribed
+2021-07-14 15:22:10,696 INFO :: Successfully subscribed
+2021-07-14 15:22:10,942 DEBUG :: https://api.binance.com:443 "DELETE /api/v3/userDataStream?listenKey=nPeBfde8N55J3qeH7ehLiiToZVrd3jswdNAaL2uMs8SvmEnSB8AfkMHJJFgx HTTP/1.1" 200 2
+2021-07-14 15:22:10,942 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:22:11,403 DEBUG :: https://api.binance.com:443 "DELETE /sapi/v1/userDataStream?listenKey=rFu6yyOKDEwryVPnnKHrH38XoVnJH2u61PET93bdLUeWRCDKjemny2pWsM0X HTTP/1.1" 200 2
+2021-07-14 15:22:11,418 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:22:11,715 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:22:11,715 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:22:12,213 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:22:12,854 INFO :: Spot Balance Websocket connection opened
+2021-07-14 15:22:12,869 INFO :: Margin Balance Websocket connection opened
+2021-07-14 15:22:13,736 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:22:14,184 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626256333736&signature=602c0ece626aead8afdf3f373a4874cc42a51684800db6773096d62dc0c5394e HTTP/1.1" 200 37
+2021-07-14 15:22:14,200 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:22:14,700 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626256334200&signature=0f5d9b767bc0a66b2eb40229b5b9bf000cee50bd89707407cc447a848090494a HTTP/1.1" 200 37
+2021-07-14 15:22:19,724 ERROR :: error from callback <bound method BinanceSpotClient._on_close of <connectors.binance_spot.BinanceSpotClient object at 0x0000024DB0314130>>: _on_close() takes 2 positional arguments but 4 were given
+2021-07-14 15:22:19,864 ERROR :: error from callback <bound method BinanceMarginClient._on_close of <connectors.binance_margin.BinanceMarginClient object at 0x0000024DB0314310>>: _on_close() takes 2 positional arguments but 4 were given
+2021-07-14 15:22:20,289 ERROR :: error from callback <bound method BalanceWebsocket._on_spot_close of <connectors.balance_websocket.BalanceWebsocket object at 0x0000024DB032E9A0>>: _on_spot_close() takes 2 positional arguments but 4 were given
+2021-07-14 15:22:20,429 ERROR :: error from callback <bound method BalanceWebsocket._on_margin_close of <connectors.balance_websocket.BalanceWebsocket object at 0x0000024DB032E9A0>>: _on_margin_close() takes 2 positional arguments but 4 were given
+2021-07-14 15:25:25,876 INFO :: Running get_contracts
+2021-07-14 15:25:25,880 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:25:26,172 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 871
+2021-07-14 15:25:26,172 INFO :: Binance Spot Client was successfully initialized
+2021-07-14 15:25:26,172 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:25:26,632 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626256526172&signature=cd71f4ce85b4bf24fa23f17834792d061fca326b78ba5a9007d893651b1c2baf HTTP/1.1" 200 37
+2021-07-14 15:25:26,632 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:25:27,101 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626256526632&signature=1022598b9031fb88c8f98ba64acb5394fe4dfad7209386000650fe69796c47de HTTP/1.1" 200 37
+2021-07-14 15:25:27,101 INFO :: Running get_contracts
+2021-07-14 15:25:27,117 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:25:27,342 INFO :: Binance  Websocket connection opened
+2021-07-14 15:25:27,342 INFO :: Successfully subscribed
+2021-07-14 15:25:27,342 INFO :: Successfully subscribed
+2021-07-14 15:25:27,405 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 871
+2021-07-14 15:25:27,405 INFO :: Binance Margin Client was successfully initialized
+2021-07-14 15:25:27,405 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:25:27,624 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:25:27,624 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:25:27,946 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:25:27,951 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:25:28,272 DEBUG :: https://api.binance.com:443 "DELETE /api/v3/userDataStream?listenKey=JAaqT8rnCSfYnwggGU1eaqbL6gxz1Kh4Qx7KxMO5yVRBRCEQvKYf94wsaCyP HTTP/1.1" 200 2
+2021-07-14 15:25:28,277 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:25:28,333 INFO :: Binance Margin Websocket connection opened
+2021-07-14 15:25:28,333 INFO :: Successfully subscribed
+2021-07-14 15:25:28,333 INFO :: Successfully subscribed
+2021-07-14 15:25:28,617 DEBUG :: https://api.binance.com:443 "DELETE /sapi/v1/userDataStream?listenKey=PaTuAT0Nz4czeDbPVY9SutdskG2G7E5f9isAv1eddnxy5s7JbYW34JFogKTI HTTP/1.1" 200 2
+2021-07-14 15:25:28,623 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:25:28,904 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:25:28,920 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:25:29,248 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:25:29,877 INFO :: Margin Balance Websocket connection opened
+2021-07-14 15:25:29,877 INFO :: Spot Balance Websocket connection opened
+2021-07-14 15:25:30,756 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:25:31,390 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626256530756&signature=edba2b53d3c8bd3911c9fcaa13451917e6a979ad1d3904ac4679497f318b0df1 HTTP/1.1" 200 37
+2021-07-14 15:25:31,390 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:25:31,929 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626256531390&signature=b78bf412c9c59581f703b9d3c5b10f34a851332303be0a36f0510d75fc773bd7 HTTP/1.1" 200 37
+2021-07-14 15:25:35,555 ERROR :: error from callback <bound method BinanceSpotClient._on_close of <connectors.binance_spot.BinanceSpotClient object at 0x0000023AE9455190>>: _on_close() takes 2 positional arguments but 4 were given
+2021-07-14 15:25:35,790 ERROR :: error from callback <bound method BinanceMarginClient._on_close of <connectors.binance_margin.BinanceMarginClient object at 0x0000023AE94553A0>>: _on_close() takes 2 positional arguments but 4 were given
+2021-07-14 15:25:36,514 ERROR :: error from callback <bound method BalanceWebsocket._on_spot_close of <connectors.balance_websocket.BalanceWebsocket object at 0x0000023AE946C9D0>>: _on_spot_close() takes 1 positional argument but 4 were given
+2021-07-14 15:25:36,655 ERROR :: error from callback <bound method BalanceWebsocket._on_margin_close of <connectors.balance_websocket.BalanceWebsocket object at 0x0000023AE946C9D0>>: _on_margin_close() takes 1 positional argument but 4 were given
+2021-07-14 15:32:38,470 INFO :: Running get_contracts
+2021-07-14 15:32:38,474 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:32:38,808 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 870
+2021-07-14 15:32:38,813 INFO :: Binance Spot Client was successfully initialized
+2021-07-14 15:32:38,816 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:32:39,346 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626256958813&signature=91db0cd952d12996e6e8db59ca6da14e14f3beb83557dc04e77b129879dd8f08 HTTP/1.1" 200 37
+2021-07-14 15:32:39,351 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:32:39,444 INFO :: Binance  Websocket connection opened
+2021-07-14 15:32:39,445 INFO :: Successfully subscribed
+2021-07-14 15:32:39,445 INFO :: Successfully subscribed
+2021-07-14 15:32:39,764 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626256959348&signature=618c6733307cb9f64e431a45da8dd661d2b1667776d94f5f3d55e541b3bbbec1 HTTP/1.1" 200 37
+2021-07-14 15:32:39,766 INFO :: Running get_contracts
+2021-07-14 15:32:39,769 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:32:40,064 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 870
+2021-07-14 15:32:40,067 INFO :: Binance Margin Client was successfully initialized
+2021-07-14 15:32:40,070 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:32:40,301 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:32:40,306 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:32:40,574 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:32:40,578 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:32:40,671 INFO :: Binance Margin Websocket connection opened
+2021-07-14 15:32:40,671 INFO :: Successfully subscribed
+2021-07-14 15:32:40,671 INFO :: Successfully subscribed
+2021-07-14 15:32:40,882 DEBUG :: https://api.binance.com:443 "DELETE /api/v3/userDataStream?listenKey=GuAmAJegVu9MG37EBJmotSmKAGgdUG2SpSmtYplUKcslcLBXbjIiU4MFduhG HTTP/1.1" 200 2
+2021-07-14 15:32:40,887 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:32:41,145 DEBUG :: https://api.binance.com:443 "DELETE /sapi/v1/userDataStream?listenKey=W4ug8aQ9wKzYgu4dLk9d1Eo4gVLH1M5l3URF2dlTLneefdXjhbOqJ72Uc483 HTTP/1.1" 200 2
+2021-07-14 15:32:41,149 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:32:41,402 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:32:41,407 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:32:41,645 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:32:42,288 INFO :: Spot Balance Websocket connection opened
+2021-07-14 15:32:43,163 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:32:43,295 INFO :: Margin Balance Websocket connection opened
+2021-07-14 15:32:43,590 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626256963160&signature=e388df3ebd454a5dd5b514a83c3757116044f8f0077d0038b58f59658d6e365f HTTP/1.1" 200 37
+2021-07-14 15:32:43,595 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:32:44,110 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626256963592&signature=f61e2eaf5d86fe4665bd25cf4c7c118edd3e88620af87cf82989b8a7b0db1d90 HTTP/1.1" 200 37
+2021-07-14 15:32:47,349 ERROR :: error from callback <bound method BinanceSpotClient._on_close of <connectors.binance_spot.BinanceSpotClient object at 0x000002ED42807130>>: _on_close() takes 2 positional arguments but 4 were given
+2021-07-14 15:32:47,478 ERROR :: error from callback <bound method BinanceMarginClient._on_close of <connectors.binance_margin.BinanceMarginClient object at 0x000002ED42807310>>: _on_close() takes 2 positional arguments but 4 were given
+2021-07-14 15:32:47,772 ERROR :: error from callback <bound method BalanceWebsocket._on_spot_close of <connectors.balance_websocket.BalanceWebsocket object at 0x000002ED4281D970>>: _on_spot_close() takes 2 positional arguments but 4 were given
+2021-07-14 15:32:47,927 ERROR :: error from callback <bound method BalanceWebsocket._on_margin_close of <connectors.balance_websocket.BalanceWebsocket object at 0x000002ED4281D970>>: _on_margin_close() takes 2 positional arguments but 4 were given
+2021-07-14 15:33:12,263 INFO :: Running get_contracts
+2021-07-14 15:33:12,267 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:12,534 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 870
+2021-07-14 15:33:12,539 INFO :: Binance Spot Client was successfully initialized
+2021-07-14 15:33:12,542 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:13,059 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626256992539&signature=c71035fb42037105409f7d9c973b711ad062160558788fdd2982e7f6d0be311f HTTP/1.1" 200 37
+2021-07-14 15:33:13,064 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:13,152 INFO :: Binance  Websocket connection opened
+2021-07-14 15:33:13,153 INFO :: Successfully subscribed
+2021-07-14 15:33:13,153 INFO :: Successfully subscribed
+2021-07-14 15:33:13,552 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626256993061&signature=ea6cda532d506d79a25356987acf5cc511c38bbe99b122b43d719f31c1713bbf HTTP/1.1" 200 37
+2021-07-14 15:33:13,555 INFO :: Running get_contracts
+2021-07-14 15:33:13,558 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:13,790 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 870
+2021-07-14 15:33:13,793 INFO :: Binance Margin Client was successfully initialized
+2021-07-14 15:33:13,796 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:14,092 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:33:14,098 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:14,410 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:33:14,415 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:14,433 INFO :: Binance Margin Websocket connection opened
+2021-07-14 15:33:14,433 INFO :: Successfully subscribed
+2021-07-14 15:33:14,433 INFO :: Successfully subscribed
+2021-07-14 15:33:14,804 DEBUG :: https://api.binance.com:443 "DELETE /api/v3/userDataStream?listenKey=ssjwzwXk3p2IX5ceP0n0DSV0hla8InZOv92Nf9VJcPa1jBNVQidXmnmGlUqy HTTP/1.1" 200 2
+2021-07-14 15:33:14,809 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:15,038 DEBUG :: https://api.binance.com:443 "DELETE /sapi/v1/userDataStream?listenKey=P1wqc87Zr4EC9ebTyla2ZFDdmT3qRiodHUmAqxbcsmDWJ1VZqtgjgEa4oB1T HTTP/1.1" 200 2
+2021-07-14 15:33:15,043 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:15,347 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:33:15,352 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:15,607 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:33:16,270 INFO :: Margin Balance Websocket connection opened
+2021-07-14 15:33:16,305 INFO :: Spot Balance Websocket connection opened
+2021-07-14 15:33:17,121 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:17,534 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626256997119&signature=b6fff89ae97951e67e910a1c5d2b15c98ece906ba53b5367f6a5b3f114fdc24c HTTP/1.1" 200 37
+2021-07-14 15:33:17,539 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:17,961 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626256997537&signature=4afecb811724e3376d89825a9fc44eecaaebcd4fe4d006dfc7c79c7e3282345d HTTP/1.1" 200 37
+2021-07-14 15:33:21,315 ERROR :: error from callback <bound method BinanceSpotClient._on_close of <connectors.binance_spot.BinanceSpotClient object at 0x00000182A2F97130>>: _on_close() takes 2 positional arguments but 4 were given
+2021-07-14 15:33:21,761 ERROR :: error from callback <bound method BalanceWebsocket._on_spot_close of <connectors.balance_websocket.BalanceWebsocket object at 0x00000182A2FAF970>>: _on_spot_close() takes 2 positional arguments but 4 were given
+2021-07-14 15:33:21,915 ERROR :: error from callback <bound method BalanceWebsocket._on_margin_close of <connectors.balance_websocket.BalanceWebsocket object at 0x00000182A2FAF970>>: _on_margin_close() takes 2 positional arguments but 4 were given
+2021-07-14 15:33:56,881 INFO :: Running get_contracts
+2021-07-14 15:33:56,885 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:57,210 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 870
+2021-07-14 15:33:57,215 INFO :: Binance Spot Client was successfully initialized
+2021-07-14 15:33:57,218 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:57,754 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626257037215&signature=5e97f560a507c4efb174565a950905cb030af7fb64435008f50f7449965b7212 HTTP/1.1" 200 37
+2021-07-14 15:33:57,759 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:57,851 INFO :: Binance  Websocket connection opened
+2021-07-14 15:33:57,851 INFO :: Successfully subscribed
+2021-07-14 15:33:57,852 INFO :: Successfully subscribed
+2021-07-14 15:33:58,238 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626257037756&signature=3708295b39f28ab1d5e80efbb176dfd86f1750367fed6391baa33f80fe32f67e HTTP/1.1" 200 37
+2021-07-14 15:33:58,241 INFO :: Running get_contracts
+2021-07-14 15:33:58,244 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:58,530 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 870
+2021-07-14 15:33:58,533 INFO :: Binance Margin Client was successfully initialized
+2021-07-14 15:33:58,536 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:58,800 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:33:58,805 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:59,124 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:33:59,128 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:33:59,149 INFO :: Binance Margin Websocket connection opened
+2021-07-14 15:33:59,149 INFO :: Successfully subscribed
+2021-07-14 15:33:59,149 INFO :: Successfully subscribed
+2021-07-14 15:33:59,697 DEBUG :: https://api.binance.com:443 "DELETE /api/v3/userDataStream?listenKey=vU4Ads9WBmTat4QrxK9CZQxwR9IMtmxWUGUb3tSZi3JbT6LInDDAKNf4OtXa HTTP/1.1" 200 2
+2021-07-14 15:33:59,702 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:34:00,261 DEBUG :: https://api.binance.com:443 "DELETE /sapi/v1/userDataStream?listenKey=65cZzvbjKVKa6jAblygIQ4Ld0i9rfZ5spON59VqklCO4Ex0axuXycMwAnWIG HTTP/1.1" 200 2
+2021-07-14 15:34:00,266 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:34:00,595 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:34:00,600 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:34:01,221 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:34:01,889 INFO :: Margin Balance Websocket connection opened
+2021-07-14 15:34:01,893 INFO :: Spot Balance Websocket connection opened
+2021-07-14 15:34:02,727 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:34:03,349 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626257042724&signature=030f861c289ac9cfa42d3fc741aa71dbafe71b6c70f9b0c2faa517584d405089 HTTP/1.1" 200 37
+2021-07-14 15:34:03,354 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:34:04,210 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626257043352&signature=4439a8511700681eb1d5dc38c99eb1a3d281cfe20bf93d05224c47ca580294a8 HTTP/1.1" 200 37
+2021-07-14 15:34:40,213 INFO :: Running get_contracts
+2021-07-14 15:34:40,218 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:34:40,541 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 870
+2021-07-14 15:34:40,546 INFO :: Binance Spot Client was successfully initialized
+2021-07-14 15:34:40,549 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:34:41,062 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626257080546&signature=fdb67d236ae8a61334051a1e82fa16dab5b838c3c44848223221d52e64e83054 HTTP/1.1" 200 37
+2021-07-14 15:34:41,067 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:34:41,212 INFO :: Binance  Websocket connection opened
+2021-07-14 15:34:41,213 INFO :: Successfully subscribed
+2021-07-14 15:34:41,213 INFO :: Successfully subscribed
+2021-07-14 15:34:41,586 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626257081064&signature=19bcd7ef20dad586f5f866cfc8664da984d6154684d2396b62fb817edfce6ccb HTTP/1.1" 200 37
+2021-07-14 15:34:41,588 INFO :: Running get_contracts
+2021-07-14 15:34:41,591 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:34:41,878 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 870
+2021-07-14 15:34:41,882 INFO :: Binance Margin Client was successfully initialized
+2021-07-14 15:34:41,885 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:34:42,091 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:34:42,097 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:34:42,403 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:34:42,407 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:34:42,488 INFO :: Binance Margin Websocket connection opened
+2021-07-14 15:34:42,488 INFO :: Successfully subscribed
+2021-07-14 15:34:42,489 INFO :: Successfully subscribed
+2021-07-14 15:34:42,618 DEBUG :: https://api.binance.com:443 "DELETE /api/v3/userDataStream?listenKey=1LwhtAV0zDgL8lB8TnwFep4r4CvI54WjipkdncO7DhnxL6ODwbThTOb9zheN HTTP/1.1" 200 2
+2021-07-14 15:34:42,622 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:34:42,864 DEBUG :: https://api.binance.com:443 "DELETE /sapi/v1/userDataStream?listenKey=xfOqXPbCykDuUeSQc0ChV2oDHDXwyJwWnRiNVXAeGITqOuLr1X7pQmsznQlZ HTTP/1.1" 200 2
+2021-07-14 15:34:42,870 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:34:43,117 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:34:43,121 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:34:43,386 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 15:34:44,233 INFO :: Margin Balance Websocket connection opened
+2021-07-14 15:34:44,234 INFO :: Spot Balance Websocket connection opened
+2021-07-14 15:34:44,896 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:34:45,330 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626257084894&signature=04dc560c2a569ddeb3a45e634dd23505a27fcdc3188178998ddc55566be06329 HTTP/1.1" 200 37
+2021-07-14 15:34:45,335 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 15:34:45,810 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626257085332&signature=33de4a1cb536622122defe4361837969fcfcd6762ae9236008c48524af1c195c HTTP/1.1" 200 37
+2021-07-14 16:03:28,227 INFO :: Running get_contracts
+2021-07-14 16:03:28,227 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:28,508 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 870
+2021-07-14 16:03:28,508 INFO :: Binance Spot Client was successfully initialized
+2021-07-14 16:03:28,508 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:28,960 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626258808508&signature=9e7d7d5393b8e7a9faeab32670a5cac18fa8fee6c4209907963eea7f4126e3f8 HTTP/1.1" 200 37
+2021-07-14 16:03:28,976 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:29,145 INFO :: Binance  Websocket connection opened
+2021-07-14 16:03:29,145 INFO :: Successfully subscribed
+2021-07-14 16:03:29,145 INFO :: Successfully subscribed
+2021-07-14 16:03:29,384 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626258808976&signature=701a1e8d9d86cb2b25d7d4b97b30198a8e427d5105410b187a283c22c7f0fdde HTTP/1.1" 200 37
+2021-07-14 16:03:29,384 INFO :: Running get_contracts
+2021-07-14 16:03:29,384 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:29,617 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 871
+2021-07-14 16:03:29,620 INFO :: Binance Margin Client was successfully initialized
+2021-07-14 16:03:29,622 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:29,865 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 16:03:29,880 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:30,121 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 16:03:30,121 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:30,231 INFO :: Binance Margin Websocket connection opened
+2021-07-14 16:03:30,231 INFO :: Successfully subscribed
+2021-07-14 16:03:30,231 INFO :: Successfully subscribed
+2021-07-14 16:03:30,449 DEBUG :: https://api.binance.com:443 "DELETE /api/v3/userDataStream?listenKey=mtsj4ciMlm2pqfEagcqFnD0EIF7lojqQMeNAoYriVeuC4iEnCk0GfbRAtVXd HTTP/1.1" 200 2
+2021-07-14 16:03:30,449 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:30,731 DEBUG :: https://api.binance.com:443 "DELETE /sapi/v1/userDataStream?listenKey=Tz2PwmXlIPIRCHyPVZx2LbdamRlcVjYDGQWgAbPhFBx16R0Q6GHriKULRwLc HTTP/1.1" 200 2
+2021-07-14 16:03:30,746 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:30,965 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 16:03:30,981 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:31,233 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 16:03:31,848 INFO :: Spot Balance Websocket connection opened
+2021-07-14 16:03:31,917 INFO :: Margin Balance Websocket connection opened
+2021-07-14 16:03:32,742 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:33,148 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626258812742&signature=73406eb78d0b32c5503c404bfd5e185eac0870a3fafbf14a64da5a34f946ec37 HTTP/1.1" 200 37
+2021-07-14 16:03:33,164 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:33,620 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626258813164&signature=2dc78111ac7a04ee9e6aab3909ee0113cc4c4ef6c98afbea184e3162192bb6bb HTTP/1.1" 200 37
+2021-07-14 16:03:41,303 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:41,635 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:03:43,145 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:43,359 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:03:44,866 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:45,105 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:03:46,614 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:46,909 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:03:48,426 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:48,648 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:03:50,165 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:50,424 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:03:51,937 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:52,228 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:03:53,741 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:53,965 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:03:55,477 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:55,765 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:03:57,272 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:57,479 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:03:58,994 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:03:59,213 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:04:00,720 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:04:00,951 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:04:02,456 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:04:02,677 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:04:04,184 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:04:04,781 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:04:06,297 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:04:06,539 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:04:08,057 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:04:08,537 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:04:10,043 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:04:10,256 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:04:11,776 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:04:11,991 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:04:13,497 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:04:13,710 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:04:15,221 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:04:15,516 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:04:17,025 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:04:17,253 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:04:18,767 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:04:18,980 DEBUG :: https://api.binance.com:443 "GET /api/v3/ticker/bookTicker?symbol=BTCUSDT HTTP/1.1" 200 120
+2021-07-14 16:06:44,063 INFO :: Running get_contracts
+2021-07-14 16:06:44,078 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:06:44,359 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 870
+2021-07-14 16:06:44,364 INFO :: Binance Spot Client was successfully initialized
+2021-07-14 16:06:44,366 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:06:44,853 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626259004364&signature=70832e94a0bf0485a6053eeb38d899ad23ed3b5e30c850a5e6ede860c4cbfb6e HTTP/1.1" 200 37
+2021-07-14 16:06:44,853 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:06:45,033 INFO :: Binance  Websocket connection opened
+2021-07-14 16:06:45,034 INFO :: Successfully subscribed
+2021-07-14 16:06:45,035 INFO :: Successfully subscribed
+2021-07-14 16:06:45,219 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626259004853&signature=2578533b54ebf1bf24194586e33f8288f68b95ac2d0250499b21fd3fac350f65 HTTP/1.1" 200 37
+2021-07-14 16:06:45,219 INFO :: Running get_contracts
+2021-07-14 16:06:45,219 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:06:45,453 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 869
+2021-07-14 16:06:45,453 INFO :: Binance Margin Client was successfully initialized
+2021-07-14 16:06:45,469 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:06:45,860 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 16:06:45,860 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:06:46,385 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 16:06:46,385 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:06:46,686 DEBUG :: https://api.binance.com:443 "DELETE /api/v3/userDataStream?listenKey=3NPCsUYqktG7y6x8dvPyo2ug95p7kBvnVABTisY4qThR9vdR4xQ42rnSEoyH HTTP/1.1" 200 2
+2021-07-14 16:06:46,691 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:06:46,949 DEBUG :: https://api.binance.com:443 "DELETE /sapi/v1/userDataStream?listenKey=sWnqvvZC7m4f1JQwtMu2Cz85ewkbkg59umFdsmllMps1D95i9lCDjaWn5pJU HTTP/1.1" 200 2
+2021-07-14 16:06:46,965 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:06:47,060 INFO :: Binance Margin Websocket connection opened
+2021-07-14 16:06:47,061 INFO :: Successfully subscribed
+2021-07-14 16:06:47,061 INFO :: Successfully subscribed
+2021-07-14 16:06:47,188 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 16:06:47,193 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:06:47,496 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 16:06:48,106 INFO :: Spot Balance Websocket connection opened
+2021-07-14 16:06:48,148 INFO :: Margin Balance Websocket connection opened
+2021-07-14 16:06:48,999 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:06:49,426 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626259008999&signature=3d41d87731c74d0db7771048533639e0b87efcc09140a84fd2eaf05c79117382 HTTP/1.1" 200 37
+2021-07-14 16:06:49,426 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:06:49,848 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626259009426&signature=701064618b5264fb301d4a30bc73641b4163f089c5227a958dfd6485e56059f6 HTTP/1.1" 200 37
+2021-07-14 16:06:54,762 ERROR :: error from callback <bound method BinanceSpotClient._on_close of <connectors.binance_spot.BinanceSpotClient object at 0x000002A154B07130>>: _on_close() takes 2 positional arguments but 4 were given
+2021-07-14 16:06:54,903 ERROR :: error from callback <bound method BinanceMarginClient._on_close of <connectors.binance_margin.BinanceMarginClient object at 0x000002A154B07310>>: _on_close() takes 2 positional arguments but 4 were given
+2021-07-14 16:08:22,908 INFO :: Running get_contracts
+2021-07-14 16:08:22,912 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:08:23,231 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 870
+2021-07-14 16:08:23,236 INFO :: Binance Spot Client was successfully initialized
+2021-07-14 16:08:23,239 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:08:23,718 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626259103236&signature=d1f4d7c157a42e6e1c7e117cda7effdca880371ae98100f4c29d9551ab6144c0 HTTP/1.1" 200 37
+2021-07-14 16:08:23,723 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:08:23,893 INFO :: Binance  Websocket connection opened
+2021-07-14 16:08:23,894 INFO :: Successfully subscribed
+2021-07-14 16:08:23,894 INFO :: Successfully subscribed
+2021-07-14 16:08:24,151 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626259103721&signature=67c1e0fb84050e35d66cb1c6bf9aa2e573ad848195614acaef947efcd2c622ab HTTP/1.1" 200 37
+2021-07-14 16:08:24,153 INFO :: Running get_contracts
+2021-07-14 16:08:24,156 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:08:24,445 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 870
+2021-07-14 16:08:24,449 INFO :: Binance Margin Client was successfully initialized
+2021-07-14 16:08:24,451 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:08:25,024 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 16:08:25,028 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:08:25,101 INFO :: Binance Margin Websocket connection opened
+2021-07-14 16:08:25,102 INFO :: Successfully subscribed
+2021-07-14 16:08:25,104 INFO :: Successfully subscribed
+2021-07-14 16:08:25,289 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 16:08:25,298 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:08:25,597 DEBUG :: https://api.binance.com:443 "DELETE /api/v3/userDataStream?listenKey=ROsbXQdci0aM9pKk5xSUJ0VF8kiHrQJ4XKZsazMVExUUSnxmHhdHrcHV6tGu HTTP/1.1" 200 2
+2021-07-14 16:08:25,602 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:08:25,935 DEBUG :: https://api.binance.com:443 "DELETE /sapi/v1/userDataStream?listenKey=sn5zkYU4awALnSMa0SosVF5AWfvmyHg41Ne5Ih1xAbyLYWQ9KoM3WCNHl8Fe HTTP/1.1" 200 2
+2021-07-14 16:08:25,941 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:08:26,155 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 16:08:26,160 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:08:26,481 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 16:08:27,093 INFO :: Spot Balance Websocket connection opened
+2021-07-14 16:08:27,132 INFO :: Margin Balance Websocket connection opened
+2021-07-14 16:08:27,994 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:08:28,405 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626259107990&signature=41e09b3784dcef1f990ba204eacce0ba2ee74e0b287d0425f5ce99995c21f2fc HTTP/1.1" 200 37
+2021-07-14 16:08:28,410 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:08:28,905 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626259108408&signature=819fd5d8c269629babd8ba90846e6b79bf3cfe0012ebdd857f960313c2f0bcad HTTP/1.1" 200 37
+2021-07-14 16:10:03,898 INFO :: Running get_contracts
+2021-07-14 16:10:03,898 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:10:04,132 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 870
+2021-07-14 16:10:04,132 INFO :: Binance Spot Client was successfully initialized
+2021-07-14 16:10:04,148 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:10:04,682 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626259204132&signature=b54bfb1fc1df06302860c3a4debc2b6d6e0b08ddd28ae465b6b7423b05964b01 HTTP/1.1" 200 37
+2021-07-14 16:10:04,682 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:10:04,822 INFO :: Binance  Websocket connection opened
+2021-07-14 16:10:04,822 INFO :: Successfully subscribed
+2021-07-14 16:10:04,822 INFO :: Successfully subscribed
+2021-07-14 16:10:05,216 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626259204682&signature=38694b4c25a6f607283f6d2cc7aa1aa019443dd7a61567595c9db9399bf55a0a HTTP/1.1" 200 37
+2021-07-14 16:10:05,218 INFO :: Running get_contracts
+2021-07-14 16:10:05,221 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:10:05,473 DEBUG :: https://api.binance.com:443 "GET /api/v3/exchangeInfo?symbols=%5B%22BTCUSDT%22%2C%22ETHUSDT%22%2C%22ADAUSDT%22%2C%22DOGEUSDT%22%2C%22LTCUSDT%22%2C%22BNBUSDT%22%5D HTTP/1.1" 200 870
+2021-07-14 16:10:05,477 INFO :: Binance Margin Client was successfully initialized
+2021-07-14 16:10:05,479 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:10:05,914 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 16:10:05,914 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:10:06,102 INFO :: Binance Margin Websocket connection opened
+2021-07-14 16:10:06,102 INFO :: Successfully subscribed
+2021-07-14 16:10:06,102 INFO :: Successfully subscribed
+2021-07-14 16:10:06,245 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 16:10:06,245 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:10:06,484 DEBUG :: https://api.binance.com:443 "DELETE /api/v3/userDataStream?listenKey=v782j1Pif51tVozm81DA134n1HL1RxI0c1lrR93mOnieQFhIwsz37mTClUtd HTTP/1.1" 200 2
+2021-07-14 16:10:06,484 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:10:06,734 DEBUG :: https://api.binance.com:443 "DELETE /sapi/v1/userDataStream?listenKey=Kw9UZBvUOwdCAGaayzEWPeL6NkF7RXlCBp2JSgIuQdDeyZHquVouo0tgiXSn HTTP/1.1" 200 2
+2021-07-14 16:10:06,734 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:10:07,050 DEBUG :: https://api.binance.com:443 "POST /api/v3/userDataStream HTTP/1.1" 200 76
+2021-07-14 16:10:07,051 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:10:07,301 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/userDataStream HTTP/1.1" 200 76
+2021-07-14 16:10:07,935 INFO :: Spot Balance Websocket connection opened
+2021-07-14 16:10:08,811 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:10:08,967 INFO :: Margin Balance Websocket connection opened
+2021-07-14 16:10:09,279 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=1&timestamp=1626259208811&signature=a7e48fe38d79a5e365d11ae869e75889861c6873d1cd55d79a021425b3bae214 HTTP/1.1" 200 37
+2021-07-14 16:10:09,279 DEBUG :: Starting new HTTPS connection (1): api.binance.com:443
+2021-07-14 16:10:09,811 DEBUG :: https://api.binance.com:443 "POST /sapi/v1/margin/transfer?asset=USDT&amount=0.5&type=2&timestamp=1626259209279&signature=67e4dab0b0abfe0ad74e46ac3fffa207ba1d0427b7dacb008c5ed9be4f8beea2 HTTP/1.1" 200 37
+2021-07-14 16:10:12,921 ERROR :: error from callback <bound method BalanceWebsocket._on_margin_close of <connectors.balance_websocket.BalanceWebsocket object at 0x0000025DC038F970>>: _on_margin_close() takes 2 positional arguments but 4 were given

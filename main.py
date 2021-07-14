@@ -31,6 +31,6 @@ if __name__ == '__main__':
     time.sleep(1.5)  # necessary to not get error while subscribing due to external thread
     spot.make_snapshot()
 
-    root = Root(spot=spot, margin=margin)
+    root = Root(spot=spot, margin=margin, balance_websocket=balance_websocket)
 
     root.mainloop()
