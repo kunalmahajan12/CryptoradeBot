@@ -137,20 +137,20 @@ class Strategy:
             logger.info("Added new candle for %s %s", self.contract.symbol, self.tf)
             return "new_candle"
 
-    def _check_order_status(self, order_id):
-        order_status = self.client.get_order_status(self.contract, order_id)
-        if order_status is not None:
-            logger.info("%s order status: %s", self.exchange, order_status.status)
-
-            if order_status.status == "filled":
-                for trade in self.trades:
-                    if trade.entry_id == order_id:
-                        trade.entry_price = order_status.avg_price
-                        break
-                return
-
-        t = Timer(2.0, lambda: self._check_order_status(order_id))
-        t.start()
+    # def _check_order_status(self, order_id):
+    #     order_status = self.client.get_order_status(self.contract, order_id)
+    #     if order_status is not None:
+    #         logger.info("%s order status: %s", self.exchange, order_status.status)
+    #
+    #         if order_status.status == "filled" and order_status.avg_price != 0:
+    #             for trade in self.trades:
+    #                 if trade.entry_id == order_id:
+    #                     trade.entry_price = order_status.avg_price
+    #                     break
+    #             return
+    #
+    #     t = Timer(2.0, lambda: self._check_order_status(order_id))
+    #     t.start()
 
     def _open_position(self, signal_result: int):
         # market order
@@ -173,18 +173,12 @@ class Strategy:
         self._add_log(f"{position_side.capitalize()} signal on {self.contract.symbol} {self.tf}")
 
         order_status = self.client.place_order(self.contract, "MARKET", trade_size, order_side, self.usdt_input, "ENTRY")
-        avg_fill_price = None
+        avg_fill_price = self.candles[-1].close
 
         if order_status is not None:
             self._add_log(f"{order_side.capitalize()} order placed on {self.exchange} | Status: {order_status.status}")
 
             self.ongoing_position = True
-
-            if order_status.status == "filled":
-                avg_fill_price = order_status.avg_price
-            else:
-                t = Timer(2.0, lambda: self._check_order_status(order_status.order_id))
-                t.start()
 
             new_trade = Trade({"time": int(time.time() * 1000), "entry_price": avg_fill_price,
                                "contract": self.contract, "strategy": self.strat_name, "side": position_side,
@@ -269,6 +263,9 @@ class Strategy:
             if self.candles[-2].close < self.stop_loss_line:
                 logger.error("PROBLEM WITH TRADE EXIT LEVEL CALCULATION %s %s while longing", self.contract.symbol, self.tf) #what to do here?
             self.profit_line = (self.candles[-2].close - self.stop_loss_line) * self.risk_to_reward + self.candles[-2].close
+
+            trade.stop_loss_line = self.stop_loss_line
+            trade.profit_line = self.profit_line
             return
 
         elif trade.side.upper() == "SHORT":
@@ -286,6 +283,9 @@ class Strategy:
             if self.candles[-2].close > self.stop_loss_line:
                 logger.error("PROBLEM WITH TRADE  EXIT LEVEL CALCULATION %s %s while shorting", self.contract.symbol, self.tf) #what to do here?
             self.profit_line = self.candles[-2].close - (self.stop_loss_line - self.candles[-2].close) * self.risk_to_reward
+
+            trade.stop_loss_line = self.stop_loss_line
+            trade.profit_line = self.profit_line
             return
 
         else:

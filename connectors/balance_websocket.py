@@ -145,7 +145,6 @@ class BalanceWebsocket:
     def _start_margin_ws(self):
         self.margin_ws = websocket.WebSocketApp(self._wss_url + "/" + self._margin_listen_key,
                                                 on_open=self._on_margin_open,
-                                                on_close=self._on_margin_close,
                                                 on_error=self._on_margin_error,
                                                 on_message=self._on_margin_message)
         while True:

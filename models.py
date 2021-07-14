@@ -80,5 +80,7 @@ class Trade:
         self.pnl: float = trade_info['pnl']
         self.quantity = trade_info['quantity']
         self.entry_id = trade_info['entry_id']
+        self.stop_loss_line = None
+        self.profit_line = None
 
 

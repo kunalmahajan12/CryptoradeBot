@@ -231,42 +231,40 @@ class BinanceSpotClient:
           "A":"40.66000000"  // best ask qty
         }
         """
+        if 'result' in data:
+            return
 
-        if "e" in data:
-            if data["e"] == "bookTicker":
-                symbol = data["s"]
-                if symbol not in self.prices:  # if not in dictionary already, make
-                    self.prices[symbol] = {
-                        "bid": float(data['b']),
-                        "ask": float(data['a'])
-                    }
-                else:  # if already there, update
-                    self.prices[symbol]["bid"] = float(data['b'])
-                    self.prices[symbol]["ask"] = float(data['a'])
+        if "e" not in data:
+            symbol = data['s']
+            if symbol not in self.prices:  # if not in dictionary already, make
+                self.prices[symbol] = {
+                    "bid": float(data['b']),
+                    "ask": float(data['a'])
+                }
+            else:  # if already there, update
+                self.prices[symbol]["bid"] = float(data['b'])
+                self.prices[symbol]["ask"] = float(data['a'])
 
-                # PNL Calculation
-                try:
-                    for b_index, strat in self.strategies.items():
-                        if strat.contract.symbol == symbol:
-                            for trade in strat.trades:
-                                if trade.status.lower() == "open" and trade.entry_price is not None:
-                                    if trade.side.lower() == "long":
-                                        trade.pnl = (self.prices[symbol][
-                                                         'bid'] - trade.entry_price) * trade.quantity
-                                    if trade.side == "short":
-                                        trade.pnl = (trade.entry_price - self.prices[symbol][
-                                            'ask']) * trade.quantity
-                except RuntimeError as e:
-                    logger.error(("Error while looping through spot strategies: %s", e))
-
-
-            elif data["e"] == "aggTrade":
-                symbol = data['s']
-
-                for key, strat in self.strategies.items():
+            # PnL Calculation
+            try:
+                for b_index, strat in self.strategies.items():
                     if strat.contract.symbol == symbol:
-                        res = strat.parse_trades(float(data['p']), float(data['q']), data['T'])
-                        strat.check_trade(res)
+                        for trade in strat.trades:
+                            if trade.status == "open" and trade.entry_price is not None:
+                                if trade.side == "long":
+                                    trade.pnl = (self.prices[symbol]['bid'] - trade.entry_price) * trade.quantity
+                                if trade.side == "short":
+                                    trade.pnl = (trade.entry_price - self.prices[symbol]['ask']) * trade.quantity
+            except RuntimeError as e:
+                logger.error(("Error while looping through spot strategies: %s", e))
+
+        elif data['e'] == "aggTrade":
+            symbol = data['s']
+
+            for key, strat in self.strategies.items():
+                if strat.contract.symbol == symbol:
+                    res = strat.parse_trades(float(data['p']), float(data['q']), data['T'])  # price, quantity, time
+                    strat.check_trade(res)
 
     def subscribe_channel(self, contracts: typing.List[Contract], channel: str):
         # we can subscribe to the "!bookTicker" channel to subscribe to allll the symbols in bookTicker
@@ -286,6 +284,9 @@ class BinanceSpotClient:
         except Exception as e:
             logger.error("Binance Websocket error while subscribing to %s %s updates: %s", len(contracts), channel, e)
 
+
+
+    ##### FROM STRATEGY MODULE #####
 
     def get_trade_size(self, contract: Contract, price: float, usdt_input: float):
         balance = self.Balances
