@@ -2,8 +2,13 @@ import datetime
 import logging
 import time
 import typing
+
+import numpy as np
 import pandas as pd
 from threading import Timer
+
+from ta import momentum
+
 from models import *
 
 # we needed to import clients to facilitate the coding process by telling which 'client' it is
@@ -193,58 +198,71 @@ class Strategy:
             atr += abs(i.close - i.open)
         return atr / 14
 
+    def _get_pivots(self, closes: typing.List[float], highs_or_lows: str):
+
+        if highs_or_lows == "highs":
+            # resistance
+            pivots_res = []
+            counter_res = 0
+            lastPivot_res = 0
+            Range_res = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+            for i in closes:
+                currentMax = max(Range_res, default=0)
+                value = i
+
+                Range_res = Range_res[1:9]
+                Range_res.append(value)
+
+                if currentMax == max(Range_res, default=0):
+                    counter_res += 1
+                else:
+                    counter_res = 0
+                if counter_res == 5:
+                    lastPivot_res = currentMax
+                    pivots_res.append(lastPivot_res)
+            return pivots_res
+
+        elif highs_or_lows == "lows":
+            # support
+            pivots = []
+            counter = 0
+            lastPivot = 0
+            Range = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            for i in closes:
+                if i is np.NAN:
+                    continue
+                currentMax = min(Range, default=0)
+                value = i
+
+                Range = Range[1:9]
+                Range.append(value)
+
+                if currentMax == min(Range, default=0):
+                    counter += 1
+                else:
+                    counter = 0
+                if counter == 5:
+                    lastPivot = currentMax
+                    pivots.append(lastPivot)
+            return pivots
+
+        else:
+            return None
+
+
     def _set_exit_points(self, trade: Trade):
         candle_closes = []
         for i in self.candles[:-1]:
             candle_closes.append(i.close)
 
         # SUPPORT LEVEL
-        pivots = []
-        dates = []
-        counter = 0
-        lastPivot = 0
-        Range = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        daterange = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-        for i in candle_closes:
-            currentMax = min(Range, default=0)
-            value = i
-
-            Range = Range[1:9]
-            Range.append(value)
-
-            if currentMax == min(Range, default=0):
-                counter += 1
-            else:
-                counter = 0
-            if counter == 5:
-                lastPivot = currentMax
-                pivots.append(lastPivot)
-        pivots = pivots[-10:]
+        pivots = self._get_pivots(candle_closes, "lows")[-10:]
 
         # RESISTANCE LEVEL
-        pivots_res = []
-        dates_res = []
-        counter_res = 0
-        lastPivot_res = 0
-        Range_res = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        daterange_res = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-        for i in candle_closes:
-            currentMax = max(Range_res, default=0)
-            value = i
-
-            Range_res = Range_res[1:9]
-            Range_res.append(value)
-
-            if currentMax == max(Range_res, default=0):
-                counter += 1
-            else:
-                counter = 0
-            if counter == 5:
-                lastPivot_res = currentMax
-                pivots_res.append(lastPivot_res)
-        pivots_res = pivots_res[-10:]
+        pivots_res = self._get_pivots(candle_closes, "highs")[-10:]
 
         key_levels = sorted(pivots + pivots_res)
         atr_value = self._atr()
@@ -419,7 +437,7 @@ class BreakoutStrategy(Strategy):
 class MacdEmaStrategy(Strategy):
     def __init__(self, client, contract: Contract, exchange: str, timeframe: str, usdt_input: float,
                  risk_to_reward: float, other_params: typing.Dict):
-        super().__init__(client, contract, exchange, timeframe, usdt_input, risk_to_reward, "Technical")
+        super().__init__(client, contract, exchange, timeframe, usdt_input, risk_to_reward, "MACD_EMA")
 
         self._macd_ema_fast = other_params['macd_ema_fast']
         self._macd_ema_slow = other_params['macd_ema_slow']
@@ -473,6 +491,94 @@ class MacdEmaStrategy(Strategy):
                 return -1
         else:
             return 0
+
+    def check_trade(self, tick_type: str):
+        if tick_type == "new_candle" and not self.ongoing_position:  # take trade only if no open positions yet
+            signal_result = self._check_signal()
+
+            if signal_result in [-1, 1]:
+                self._open_position(signal_result)
+
+
+class EmaRsiStochStrategy(Strategy):
+    def __init__(self, client, contract: Contract, exchange: str, timeframe: str, usdt_input: float,
+                 risk_to_reward: float, other_params: typing.Dict):
+        super().__init__(client, contract, exchange, timeframe, usdt_input, risk_to_reward, "EMA_RSI_Scalp")
+
+        self.rsis = None    # once this list has been made, the current RSI will be given by self.rsis[-2]
+        self.candle_at_rsi_pivot: Candle = Candle([1, 2, 3, 4, 5, 6], 'dummy_timeframe', "Spot")  # dummy candle
+
+    def _getPrevRsiPivot(self, closes: typing.List[float], highs_or_lows: str):
+        rsiSeries = momentum.RSIIndicator(pd.Series(closes)).rsi()
+        rsiList = [i for i in rsiSeries]    # list of all RSIs, from which we'll find the last pivot point in the desired direction
+        self.rsis = rsiList
+
+        rsi_pivot = self._get_pivots(closes=rsiList, highs_or_lows=highs_or_lows)[-1]
+        index_of_rsi_pivot_from_end = list(reversed(rsiList)).index(rsi_pivot)
+        candle_at_that_point = list(reversed(self.candles))[index_of_rsi_pivot_from_end]
+
+        self.candle_at_rsi_pivot = candle_at_that_point
+        return rsi_pivot
+
+    def _ema(self, close_list: typing.List[float], period: int) -> float:
+        closes = pd.Series(close_list)
+        ema_value = closes.ewm(span=period).mean()
+        return ema_value.iloc[-2]
+
+    def _stochasic_crossover(self, close_list: typing.List[float], long_or_short: str):
+        stoch_rsi_indicator_object = momentum.StochRSIIndicator(pd.Series(close_list))
+        # %k is fast line and %d is slow line
+        k_series = stoch_rsi_indicator_object.stochrsi_k()
+        d_series = stoch_rsi_indicator_object.stochrsi_d()
+
+        # confirming that a crossover has been made
+        if (k_series.iloc[-3] - d_series.iloc[-3]) * (k_series.iloc[-2] - d_series.iloc[-2]) > 0:
+            return False
+
+        if long_or_short == "long":
+            if k_series.iloc[-2] > d_series.iloc[-2]:
+                return True
+        elif long_or_short == "short":
+            if k_series.iloc[-2] < d_series.iloc[-2]:
+                return True
+        else:
+            return None
+        return False
+
+    def _check_signal(self):
+        close_list = []
+        for candle in self.candles:
+            close_list.append(candle.close)
+
+        atr = self._atr()
+        fiftyMa = self._ema(close_list, 50)
+        twohundMa = self._ema(close_list, 200)
+
+        # making sure current price isn't between the two moving averages
+        if (self.candles[-2].close-fiftyMa)*(self.candles[-2].close-twohundMa) < 0:
+            return 0
+
+        if twohundMa+0.9*atr < fiftyMa < self.candles[-2].close:
+            # long
+            lastRsiPivot = self._getPrevRsiPivot(close_list, "lows")
+            currentRsi = self.rsis[-2]
+            lastPivotLow = self.candle_at_rsi_pivot.low
+            currentLow = self.candles[-2].low
+
+            if currentRsi < lastRsiPivot and currentLow > lastPivotLow and self._stochasic_crossover(close_list, "long"):
+                return 1
+
+        elif self.candles[-2].close < fiftyMa < twohundMa-0.9*atr:
+            # short
+            lastRsiPivot = self._getPrevRsiPivot(close_list, "highs")
+            currentRsi = self.rsis[-2]
+            lastPivotHigh = self.candle_at_rsi_pivot.high
+            currentHigh = self.candles[-2].high
+
+            if currentRsi > lastRsiPivot and currentHigh < lastPivotHigh and self._stochasic_crossover(close_list, "short"):
+                return -1
+
+        return 0
 
     def check_trade(self, tick_type: str):
         if tick_type == "new_candle" and not self.ongoing_position:  # take trade only if no open positions yet

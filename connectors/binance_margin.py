@@ -14,7 +14,7 @@ import requests
 from pprint import pprint
 import typing
 from models import *
-from strategies import TechnicalStrategy, BreakoutStrategy, MacdEmaStrategy
+from strategies import TechnicalStrategy, BreakoutStrategy, MacdEmaStrategy, EmaRsiStochStrategy
 
 from connectors.binance_spot import BinanceSpotClient
 
@@ -42,7 +42,7 @@ class BinanceMarginClient:
         self.contracts: typing.Dict[str, Contract] = self.get_contracts()  # gets exchange information about symbols and their trading
         self.prices = dict()
 
-        self.strategies: typing.Dict[int, typing.Union[TechnicalStrategy, BreakoutStrategy, MacdEmaStrategy]] = dict()
+        self.strategies: typing.Dict[int, typing.Union[TechnicalStrategy, BreakoutStrategy, MacdEmaStrategy, EmaRsiStochStrategy]] = dict()
 
         self.logs = []
 
@@ -185,7 +185,7 @@ class BinanceMarginClient:
             # saving this
             path = 'E:\Ishaan\'s Bot\saved candles\\'
             pd.DataFrame(df, columns=['time', 'open', 'high', 'low', 'close', 'volume']).to_csv(
-                path + contract.symbol + ".csv", index=False)
+                path + contract.symbol + "_" + interval +".csv", index=False)
 
         return candles
 
@@ -265,13 +265,13 @@ class BinanceMarginClient:
         elif data['e'] == "aggTrade":
             symbol = data['s']
 
-            for key, strat in self.strategies.items():
-                if strat.contract.symbol == symbol:
-                    res = strat.parse_trades(float(data['p']), float(data['q']), data['T'])  # price, quantity, time
-                    strat.check_trade(res)
-        # if symbol == 'BTCUSDT':
-        #     self._add_log(
-        #         symbol + " " + str(self.prices[symbol]['bid']) + "/" + str(self.prices[symbol]['ask']))
+            try:
+                for key, strat in self.strategies.items():
+                    if strat.contract.symbol == symbol:
+                        res = strat.parse_trades(float(data['p']), float(data['q']), data['T'])  # price, quantity, time
+                        strat.check_trade(res)
+            except Exception as e:
+                logger.error("Strategies Parsing On Message in Spot Client Error- %s", e)
 
     def subscribe_channel(self, contracts: typing.List[Contract], channel: str):
         # we can subscribe to the "!bookTicker" channel to subscribe to allll the symbols in bookTicker

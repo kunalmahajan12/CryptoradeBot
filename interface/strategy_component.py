@@ -4,7 +4,7 @@ from pprint import pprint
 from interface.styling import *
 from connectors.binance_spot import BinanceSpotClient
 from connectors.binance_margin import BinanceMarginClient
-from strategies import TechnicalStrategy, BreakoutStrategy, MacdEmaStrategy
+from strategies import TechnicalStrategy, BreakoutStrategy, MacdEmaStrategy, EmaRsiStochStrategy
 
 
 class StrategyEditor(tk.Frame):
@@ -41,7 +41,7 @@ class StrategyEditor(tk.Frame):
 
         self._base_params = [
             {"code_name": "strategy_type", "widget": tk.OptionMenu, "data_type": str,
-             "values": ["Technical", "Breakout", "MACD_EMA"], "width": 10},
+             "values": ["Technical", "Breakout", "MACD_EMA", "EmaRsiStoch"], "width": 10},
             {"code_name": "contract", "widget": tk.OptionMenu, "data_type": str,
              "values": self._all_contracts, "width": 15},
             {"code_name": "timeframe", "widget": tk.OptionMenu, "data_type": str,
@@ -74,6 +74,9 @@ class StrategyEditor(tk.Frame):
                 {"code_name": "macd_ema_slow", "name": "MACD Slow Length", "widget": tk.Entry, "data_type": int},
                 {"code_name": "macd_ema_signal", "name": "MACD Signal Length", "widget": tk.Entry, "data_type": int},
                 {"code_name": "ema_period", "name": "EMA Period", "widget": tk.Entry, "data_type": int},
+            ],
+            "EmaRsiStoch": [
+                # nothing
             ]
 
         }
@@ -237,6 +240,11 @@ class StrategyEditor(tk.Frame):
 
             elif strat_selected == "MACD_EMA":
                 new_strategy = MacdEmaStrategy(self._exchanges[exchange], contract, exchange, timeframe,
+                                               usdt_input, risk_to_reward,
+                                               self._additional_parameters[b_index])
+
+            elif strat_selected == "EmaRsiStoch":
+                new_strategy = EmaRsiStochStrategy(self._exchanges[exchange], contract, exchange, timeframe,
                                                usdt_input, risk_to_reward,
                                                self._additional_parameters[b_index])
             else:

@@ -14,7 +14,7 @@ import requests
 from pprint import pprint
 import typing
 from models import *
-from strategies import TechnicalStrategy, BreakoutStrategy, MacdEmaStrategy
+from strategies import TechnicalStrategy, BreakoutStrategy, MacdEmaStrategy, EmaRsiStochStrategy
 
 logger = logging.getLogger()
 
@@ -39,7 +39,7 @@ class BinanceSpotClient:
         self.contracts: typing.Dict[str, Contract] = self.get_contracts()  # gets exchange information about symbols and their trading
         self.prices = dict()
 
-        self.strategies: typing.Dict[int, typing.Union[TechnicalStrategy, BreakoutStrategy, MacdEmaStrategy]] = dict()
+        self.strategies: typing.Dict[int, typing.Union[TechnicalStrategy, BreakoutStrategy, MacdEmaStrategy, EmaRsiStochStrategy]] = dict()
 
         self.logs = []
 
@@ -261,10 +261,13 @@ class BinanceSpotClient:
         elif data['e'] == "aggTrade":
             symbol = data['s']
 
-            for key, strat in self.strategies.items():
-                if strat.contract.symbol == symbol:
-                    res = strat.parse_trades(float(data['p']), float(data['q']), data['T'])  # price, quantity, time
-                    strat.check_trade(res)
+            try:
+                for key, strat in self.strategies.items():
+                    if strat.contract.symbol == symbol:
+                        res = strat.parse_trades(float(data['p']), float(data['q']), data['T'])  # price, quantity, time
+                        strat.check_trade(res)
+            except Exception as e:
+                logger.error("Strategies Parsing On Message in Spot Client Error- %s", e)
 
     def subscribe_channel(self, contracts: typing.List[Contract], channel: str):
         # we can subscribe to the "!bookTicker" channel to subscribe to allll the symbols in bookTicker
