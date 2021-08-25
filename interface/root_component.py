@@ -23,7 +23,7 @@ class Root(tk.Tk):
         self.margin = margin
         self.balance_websocket = balance_websocket
 
-        self.title("Ishaan's Trading Bot")
+        self.title("Kunal's Trading Bot")
         self.protocol("WM_DELETE_WINDOW", self._ask_before_close)
 
         self.configure(bg=BG_COLOR)
